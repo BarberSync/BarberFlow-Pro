@@ -1,1 +1,111 @@
-//
+<!DOCTYPE html>
+
+
+<html lang="ar" dir="rtl">
+
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>انضم كحلاق - BarberFlow-Pro</title>
+
+
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <h2>تسجيل صالون جديد</h2>
+
+
+        <form id="registerForm">
+
+
+            <label>معلومات الدخول:</label>
+
+
+            <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+
+
+            <input type="password" id="password" placeholder="كلمة المرور (6 أحرف فأكثر)" required>
+
+
+            <hr>
+
+
+            <label>معلومات الصالون:</label>
+
+
+            <input type="text" id="shopName" placeholder="اسم الصالون" required>
+
+
+            <input type="text" id="ownerName" placeholder="اسم صاحب الصالون" required>
+
+
+            <input type="tel" id="phone" placeholder="رقم الهاتف (واتساب)" required>
+
+
+            <input type="text" id="address" placeholder="العنوان بالتفصيل" required>
+
+
+            <select id="city">
+
+
+                <option value="" disabled selected>اختر المدينة</option>
+
+
+                <option value="tangier">طنجة</option>
+
+
+                <option value="casablanca">الدار البيضاء</option>
+
+
+                <option value="rabat">الرباط</option>
+
+
+            </select>
+
+
+            <button type="submit" id="btnRegister" class="btn btn-gold">إنشاء الحساب والانضمام</button>
+
+
+        </form>
+
+
+        <div style="text-align: center; margin-top: 20px;">
+
+
+            <a href="login.html" style="color: var(--primary); text-decoration: none;">لديك حساب بالفعل؟ سجل دخولك هنا</a>
+
+
+        </div>
+
+
+    </div>
+
+
+    <script src="js/auth.js"></script>
+
+<script type="module" src="js/main.js"></script>
+
+
+</body>
+
+
+</html>

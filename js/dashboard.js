@@ -2,6 +2,10 @@ import { db, storage, doc, getDoc, updateDoc, collection, query, where, getDocs 
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { logout } from "./auth.js";
 
+// جعل الدوال متاحة للـ onclick في ملفات HTML
+
+
+
 const barberUid = localStorage.getItem('barberUid');
 
 // ربط وظيفة الخروج بالنافذة
@@ -21,19 +25,56 @@ async function loadDashboard() {
         loadBookings();
     }
 }
-
 // 2. تحديث البيانات النصية
-document.getElementById('btnUpdate').addEventListener('click', async () => {
-    try {
-        await updateDoc(doc(db, "salons", barberUid), {
-            shopName: document.getElementById('editShopName').value,
-            services: document.getElementById('editServices').value
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+
+    const btnUpdate = document.getElementById('btnUpdate');
+
+
+    if (btnUpdate) {
+
+
+        btnUpdate.addEventListener('click', async () => {
+
+
+            try {
+
+
+                await updateDoc(doc(db, "salons", barberUid), {
+
+
+                    shopName: document.getElementById('editShopName').value,
+
+
+                    services: document.getElementById('editServices').value
+
+
+                });
+
+
+                alert("تم حفظ التغييرات!");
+
+
+            } catch (e) {
+
+
+                alert("حدث خطأ: " + e.message);
+
+
+            }
+
+
         });
-        alert("تم حفظ التعديلات!");
-    } catch (e) {
-        alert("حدث خطأ: " + e.message);
+
+
     }
+
+
 });
+
 
 // 3. رفع الصور
 window.handleUpload = async (type) => {
@@ -54,6 +95,9 @@ window.handleUpload = async (type) => {
         alert("خطأ في الرفع: " + error.message);
     }
 };
+
+window.handleUpload = handleUpload;
+
 
 // 4. تحميل جدول الحجوزات
 async function loadBookings() {

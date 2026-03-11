@@ -9,7 +9,6 @@
     --error-red: #ff4d4d;
 }
 
-
 body { 
     font-family: 'Cairo', sans-serif; 
     margin: 0; 
@@ -17,7 +16,6 @@ body {
     color: var(--primary); 
     direction: rtl; 
 }
-
 
 /* --- 2. الملاحة (Navigation) --- */
 nav { 
@@ -32,99 +30,45 @@ nav {
     z-index: 1000; 
 }
 
-
-nav a { 
-    text-decoration: none; 
-    color: var(--gold); 
-    font-weight: bold; 
-}
-
+nav a { text-decoration: none; color: var(--gold); font-weight: bold; }
 
 /* --- 3. الأزرار العامة (Buttons) --- */
 .btn { 
-    padding: 15px; 
-    border-radius: 12px; 
-    text-decoration: none; 
-    font-weight: bold; 
-    display: block; 
-    text-align: center; 
+    padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; 
+    text-align: center; transition: 0.3s; cursor: pointer; border: none; 
+    font-family: 'Cairo', sans-serif; display: block; width: 100%; box-sizing: border-box;
 }
 
+.btn-gold { background: var(--gold); color: var(--primary); }
+.btn-outline { border: 2px solid var(--gold); color: var(--gold); background: transparent; }
 
-.btn-gold { background: var(--gold); color: white; }
+/* --- 4. النماذج (Forms) --- */
+.container { width: 100%; max-width: 500px; margin: auto; padding: 20px; box-sizing: border-box; }
 
+input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
 
-/* --- 4. لوحة التحكم (Dashboard) - معزولة بـ dashboard-body --- */
-.dashboard-body { 
-    background: #1a1a1a; 
-    color: white; 
-    padding: 20px;
+/* --- 5. الصفحة الرئيسية (Hero) --- */
+.hero { 
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; 
+    align-items: center; text-align: center; padding: 20px; color: white;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1350&q=80');
+    background-size: cover; 
 }
 
+/* --- 6. لوحة التحكم (Dashboard) - معزولة تماماً --- */
+.dashboard-body { background: #1a1a1a; color: white; }
 
 .dashboard-body .salon-card {
-    background: var(--white);
-    color: black;
-    border-radius: 20px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 500px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    background: var(--white); color: black; border-radius: 20px; padding: 20px;
+    margin: 20px auto; max-width: 500px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
-
-
-.dashboard-body .profile-pic {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    border: 3px solid var(--gold);
-}
-
-
-.dashboard-body .dropdown {
-    position: relative;
-    display: inline-block;
-    margin-top: 15px;
-}
-
-
-.dashboard-body .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 8px;
-    color: black;
-}
-
-
-.dashboard-body .dropdown-content button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    text-align: right;
-}
-
 
 .dashboard-body .section {
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 15px;
-    margin: 15px auto;
-    max-width: 500px;
+    background: white; color: black; padding: 20px; border-radius: 15px;
+    margin: 15px auto; max-width: 500px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-
-.dashboard-body .section input {
-    display: block;
-    width: 90%;
-    margin: 10px 0;
-    padding: 10px;
+.dashboard-body .profile-pic {
+    width: 100px; height: 100px; border-radius: 50%;
+    border: 3px solid var(--gold); margin-bottom: 10px;
 }

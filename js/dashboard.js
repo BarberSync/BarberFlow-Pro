@@ -1,3 +1,7 @@
+alert("تم تحميل ملف الجافا سكريبت بنجاح!");
+
+
+
 import { db, storage, doc, getDoc, updateDoc, collection, query, where, getDocs } from "./firebase-init.js";
 
 

@@ -2,21 +2,18 @@ import { db, storage, doc, getDoc, updateDoc, collection, query, where, getDocs 
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { logout } from "./auth.js";
 
-// جعل الدوال متاحة للـ onclick في ملفات HTML
-
-
 
 const barberUid = localStorage.getItem('barberUid');
 
-// ربط وظيفة الخروج بالنافذة
-window.logout = logout;
 
 // 1. تحميل بيانات الصالون الحالية عند فتح الصفحة
 async function loadDashboard() {
     if (!barberUid) return window.location.href = "login.html";
 
+
     const docRef = doc(db, "salons", barberUid);
     const docSnap = await getDoc(docRef);
+
 
     if (docSnap.exists()) {
         const data = docSnap.data();
@@ -25,9 +22,9 @@ async function loadDashboard() {
         loadBookings();
     }
 }
+
+
 // 2. تحديث البيانات النصية
-
-
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -83,6 +80,7 @@ window.handleUpload = async (type) => {
     
     if (!file) return alert("الرجاء اختيار صورة أولاً!");
 
+
     try {
         const storageRef = ref(storage, `salons/${barberUid}/${type}`);
         await uploadBytes(storageRef, file);
@@ -96,8 +94,6 @@ window.handleUpload = async (type) => {
     }
 };
 
-window.handleUpload = handleUpload;
-
 
 // 4. تحميل جدول الحجوزات
 async function loadBookings() {
@@ -106,10 +102,12 @@ async function loadBookings() {
     const tbody = document.getElementById('bookingsBody');
     tbody.innerHTML = "";
 
+
     if (querySnapshot.empty) {
         tbody.innerHTML = "<tr><td colspan='3'>لا توجد حجوزات حالياً</td></tr>";
         return;
     }
+
 
     querySnapshot.forEach((doc) => {
         const b = doc.data();
@@ -117,4 +115,13 @@ async function loadBookings() {
     });
 }
 
+
 loadDashboard();
+
+
+// ربط الأزرار برمجياً للعمل مع الـ Modules
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnLogout')?.addEventListener('click', logout);
+    document.getElementById('btnUploadCover')?.addEventListener('click', () => handleUpload('cover'));
+    document.getElementById('btnUploadProfile')?.addEventListener('click', () => handleUpload('profile'));
+});

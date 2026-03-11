@@ -1,62 +1,158 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
+
 <head>
+
+
     <meta charset="UTF-8">
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     <title>لوحة التحكم - BarberFlow-Pro</title>
+
+
     <link rel="stylesheet" href="css/style.css">
+
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+
 </head>
+
+
 <body class="dashboard-body">
 
+
     <nav>
+
+
         <a href="index.html" class="logo">BarberFlow-Pro ✂️</a>
-        <button onclick="logout()" class="btn btn-outline" style="padding: 5px 15px; width: auto;">خروج</button>
+
+
+        <button id="btnLogout" class="btn btn-outline" style="padding: 5px 15px; width: auto;">خروج</button>
+
+
     </nav>
 
+
     <div class="container">
+
+
         <h2>لوحة تحكم الصالون</h2>
 
+
         <div class="section">
+
+
             <h3>تعديل الصور</h3>
+
+
             <label>صورة الغلاف:</label>
+
+
             <input type="file" id="coverInput" accept="image/*">
-            <button class="btn btn-outline" onclick="handleUpload('cover')" style="margin: 10px 0;">رفع صورة الغلاف</button>
+
+
+            <button id="btnUploadCover" class="btn btn-outline" style="margin: 10px 0;">رفع صورة الغلاف</button>
+
+
             
+
+
             <hr>
+
+
             
+
+
             <label>صورة البروفايل:</label>
+
+
             <input type="file" id="profileInput" accept="image/*">
-            <button class="btn btn-outline" onclick="handleUpload('profile')" style="margin: 10px 0;">رفع صورة البروفايل</button>
+
+
+            <button id="btnUploadProfile" class="btn btn-outline" style="margin: 10px 0;">رفع صورة البروفايل</button>
+
+
         </div>
 
+
         <div class="section">
+
+
             <h3>إدارة بيانات الصالون</h3>
+
+
             <input type="text" id="editShopName" placeholder="اسم الصالون">
+
+
             <input type="text" id="editServices" placeholder="الخدمات (افصل بينها بفاصلة)">
+
+
             <button class="btn btn-gold" id="btnUpdate">حفظ التغييرات</button>
+
+
         </div>
 
+
         <div class="section">
+
+
             <h3>📅 جدول الحجوزات</h3>
+
+
             <table class="bookings-table">
+
+
                 <thead>
+
+
                     <tr>
+
+
                         <th>الزبون</th>
+
+
                         <th>الموعد</th>
+
+
                         <th>الحالة</th>
+
+
                     </tr>
+
+
                 </thead>
+
+
                 <tbody id="bookingsBody">
+
+
                     <tr><td colspan="3">جاري تحميل الحجوزات...</td></tr>
+
+
                 </tbody>
+
+
             </table>
+
+
         </div>
+
+
     </div>
+
 
     <script type="module" src="js/dashboard.js"></script> 
 
+
 <script type="module" src="js/main.js"></script>
 
+
 </body>
+
+
 </html>

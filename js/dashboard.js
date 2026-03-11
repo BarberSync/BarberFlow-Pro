@@ -1,63 +1,25 @@
-import { db, storage, doc, getDoc, updateDoc, collection, query, where, getDocs } from "./firebase-init.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { db, storage, doc, getDoc, updateDoc } from "./firebase-init.js";
 import { logout } from "./auth.js";
 
 const barberUid = localStorage.getItem('barberUid');
 
-// 1. تعريف الدوال
-async function loadDashboard() {
+// دالة القائمة المنسدلة
+window.toggleMenu = () => {
+    const menu = document.getElementById('settingsMenu');
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+};
+
+// دالة تسجيل الخروج
+window.logout = logout;
+
+// تحميل بيانات الصالون
+window.addEventListener('load', async () => {
     if (!barberUid) return window.location.href = "login.html";
-    const docRef = doc(db, "salons", barberUid);
-    const docSnap = await getDoc(docRef);
+
+    const docSnap = await getDoc(doc(db, "salons", barberUid));
     if (docSnap.exists()) {
         const data = docSnap.data();
-        document.getElementById('editShopName').value = data.shopName || "";
-        document.getElementById('editServices').value = data.services || "";
-        loadBookings();
+        document.getElementById('shopNameDisplay').innerText = data.shopName;
+        document.getElementById('editShopName').value = data.shopName;
     }
-}
-
-async function handleUpload(type) {
-    const fileInput = document.getElementById(type + 'Input');
-    const file = fileInput.files[0];
-    if (!file) return alert("الرجاء اختيار صورة!");
-    try {
-        const storageRef = ref(storage, `salons/${barberUid}/${type}`);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        await updateDoc(doc(db, "salons", barberUid), { [type + 'Url']: url });
-        alert("تم!");
-        location.reload();
-    } catch (e) { alert(e.message); }
-}
-
-async function loadBookings() {
-    const q = query(collection(db, "bookings"), where("salonId", "==", barberUid));
-    const querySnapshot = await getDocs(q);
-    const tbody = document.getElementById('bookingsBody');
-    tbody.innerHTML = "";
-    querySnapshot.forEach((doc) => {
-        const b = doc.data();
-        tbody.innerHTML += `<tr><td>${b.customerName}</td><td>${b.date}</td><td>${b.status}</td></tr>`;
-    });
-}
-
-// 2. الربط المضمون (هذا الجزء هو الذي سيحل مشكلتك)
-window.addEventListener('load', () => {
-    console.log("الصفحة محملة بالكامل - جاري ربط الأزرار");
-    
-    document.getElementById('btnLogout')?.addEventListener('click', logout);
-    
-    document.getElementById('btnUpdate')?.addEventListener('click', async () => {
-        await updateDoc(doc(db, "salons", barberUid), {
-            shopName: document.getElementById('editShopName').value,
-            services: document.getElementById('editServices').value
-        });
-        alert("تم الحفظ!");
-    });
-
-    document.getElementById('btnUploadCover')?.addEventListener('click', () => handleUpload('cover'));
-    document.getElementById('btnUploadProfile')?.addEventListener('click', () => handleUpload('profile'));
-
-    loadDashboard();
 });

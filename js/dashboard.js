@@ -4,19 +4,15 @@ import { logout } from "./auth.js";
 
 const barberUid = localStorage.getItem('barberUid');
 
-// 1. تعريف الدوال كـ async مباشرة
+// 1. تعريف الدوال
 async function loadDashboard() {
     if (!barberUid) return window.location.href = "login.html";
-
     const docRef = doc(db, "salons", barberUid);
     const docSnap = await getDoc(docRef);
-
     if (docSnap.exists()) {
         const data = docSnap.data();
-        const shopNameEl = document.getElementById('editShopName');
-        const servicesEl = document.getElementById('editServices');
-        if (shopNameEl) shopNameEl.value = data.shopName || "";
-        if (servicesEl) servicesEl.value = data.services || "";
+        document.getElementById('editShopName').value = data.shopName || "";
+        document.getElementById('editServices').value = data.services || "";
         loadBookings();
     }
 }
@@ -24,58 +20,44 @@ async function loadDashboard() {
 async function handleUpload(type) {
     const fileInput = document.getElementById(type + 'Input');
     const file = fileInput.files[0];
-    if (!file) return alert("الرجاء اختيار صورة أولاً!");
-
+    if (!file) return alert("الرجاء اختيار صورة!");
     try {
         const storageRef = ref(storage, `salons/${barberUid}/${type}`);
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
         await updateDoc(doc(db, "salons", barberUid), { [type + 'Url']: url });
-        alert("تم رفع الصورة بنجاح!");
+        alert("تم!");
         location.reload();
-    } catch (error) {
-        alert("خطأ في الرفع: " + error.message);
-    }
+    } catch (e) { alert(e.message); }
 }
 
 async function loadBookings() {
     const q = query(collection(db, "bookings"), where("salonId", "==", barberUid));
     const querySnapshot = await getDocs(q);
     const tbody = document.getElementById('bookingsBody');
-    if (!tbody) return;
     tbody.innerHTML = "";
-    if (querySnapshot.empty) {
-        tbody.innerHTML = "<tr><td colspan='3'>لا توجد حجوزات حالياً</td></tr>";
-        return;
-    }
     querySnapshot.forEach((doc) => {
         const b = doc.data();
         tbody.innerHTML += `<tr><td>${b.customerName}</td><td>${b.date}</td><td>${b.status}</td></tr>`;
     });
 }
 
-// 2. ربط الأزرار بعد تأكد تحميل الصفحة بالكامل
-document.addEventListener('DOMContentLoaded', () => {
-    // ربط زر الخروج
+// 2. الربط المضمون (هذا الجزء هو الذي سيحل مشكلتك)
+window.addEventListener('load', () => {
+    console.log("الصفحة محملة بالكامل - جاري ربط الأزرار");
+    
     document.getElementById('btnLogout')?.addEventListener('click', logout);
-
-    // ربط زر الحفظ
+    
     document.getElementById('btnUpdate')?.addEventListener('click', async () => {
-        try {
-            await updateDoc(doc(db, "salons", barberUid), {
-                shopName: document.getElementById('editShopName').value,
-                services: document.getElementById('editServices').value
-            });
-            alert("تم حفظ التعديلات!");
-        } catch (e) {
-            alert("حدث خطأ: " + e.message);
-        }
+        await updateDoc(doc(db, "salons", barberUid), {
+            shopName: document.getElementById('editShopName').value,
+            services: document.getElementById('editServices').value
+        });
+        alert("تم الحفظ!");
     });
 
-    // ربط أزرار الرفع
     document.getElementById('btnUploadCover')?.addEventListener('click', () => handleUpload('cover'));
     document.getElementById('btnUploadProfile')?.addEventListener('click', () => handleUpload('profile'));
 
-    // بدء التحميل
     loadDashboard();
 });

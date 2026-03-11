@@ -133,6 +133,57 @@ if (registerForm) {
 
 }
 
+// 4. دالة تسجيل الدخول (إضافة جديدة)
+
+
+const loginForm = document.getElementById('loginForm');
+
+
+if (loginForm) {
+
+
+    loginForm.addEventListener('submit', async (e) => {
+
+
+        e.preventDefault(); // لمنع تحديث الصفحة
+
+
+        const email = document.getElementById('loginEmail').value;
+
+
+        const password = document.getElementById('loginPassword').value;
+
+
+        try {
+
+
+            await signInWithEmailAndPassword(auth, email, password);
+
+
+            alert("تم تسجيل الدخول بنجاح!");
+
+
+            window.location.href = "dashboard.html";
+
+
+        } catch (error) {
+
+
+            console.error("خطأ في الدخول:", error.message);
+
+
+            alert("خطأ في الدخول: تأكد من البريد وكلمة المرور.");
+
+
+        }
+
+
+    });
+
+
+}
+
+
 
 // 3. دالة تسجيل الخروج
 

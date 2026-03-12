@@ -101,9 +101,6 @@ if (registerForm) {
                 address: document.getElementById('address').value,
 
 
-                city: document.getElementById('city').value,
-
-
                 uid: user.uid
 
 

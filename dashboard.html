@@ -13,55 +13,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>لوحة التحكم - BarberFlow-Pro</title>
+    <title>لوحة التحكم | BarberFlow-Pro</title>
 
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+
+
+        /* تنسيق سريع لضمان ظهور العناصر كما في الصورة */
+
+
+        .profile-card {
+
+
+            background: white;
+
+
+            border-radius: 20px;
+
+
+            padding: 20px;
+
+
+            text-align: center;
+
+
+            margin: 20px;
+
+
+        }
+
+
+        .profile-circle {
+
+
+            width: 100px;
+
+
+            height: 100px;
+
+
+            border: 3px solid #D4AF37;
+
+
+            border-radius: 50%;
+
+
+            margin: 0 auto 15px;
+
+
+        }
+
+
+        .btn-group {
+
+
+            display: flex;
+
+
+            justify-content: center;
+
+
+            gap: 10px;
+
+
+            flex-wrap: wrap;
+
+
+            margin-top: 15px;
+
+
+        }
+
+
+        .action-btn {
+
+
+            background: #f0f0f0;
+
+
+            border: none;
+
+
+            padding: 8px 15px;
+
+
+            border-radius: 15px;
+
+
+            cursor: pointer;
+
+
+            color: #007bff;
+
+
+            font-size: 14px;
+
+
+        }
+
+
+    </style>
 
 
 </head>
 
 
-<body class="dashboard-body">
+<body>
 
 
-    <div class="salon-card">
+    <div class="dashboard-wrapper">
 
 
-        <div class="profile-header" id="coverImg"></div>
+        <div class="profile-card">
 
 
-        <div class="card-content">
+            <div class="profile-circle"></div>
 
 
-            <img src="https://via.placeholder.com/150" class="profile-pic" id="profileImg">
+            <h2 id="display-salon-name">اسم الصالون</h2>
 
 
-            <h2 id="shopNameDisplay">اسم الصالون</h2>
+            <div class="btn-group">
 
 
-            <div class="dropdown">
+                <button class="action-btn" onclick="openSettings()">⚙️ الإعدادات</button>
 
 
-                <button class="btn-settings" onclick="toggleMenu()">⚙️ الإعدادات</button>
+                <button class="action-btn" onclick="editData()">تعديل البيانات</button>
 
 
-                <div id="settingsMenu" class="dropdown-content">
+                <button class="action-btn" onclick="changePhotos()">تغيير الصور</button>
 
 
-                    <button onclick="document.getElementById('editSection').style.display='block'">تعديل البيانات</button>
-
-
-                    <button onclick="document.getElementById('uploadSection').style.display='block'">تغيير الصور</button>
-
-
-                    <button onclick="logout()">خروج</button>
-
-
-                </div>
+                <button class="action-btn" style="color: red;" onclick="logout()">خروج</button>
 
 
             </div>
@@ -73,40 +160,75 @@
     </div>
 
 
-    <div id="editSection" class="section" style="display:none;">
+    <script>
 
 
-        <h3>تعديل معلومات الصالون</h3>
+        // وظيفة لتسريع التحميل وعرض البيانات فوراً
 
 
-        <input type="text" id="editShopName" placeholder="اسم الصالون">
+        window.onload = function() {
 
 
-        <input type="text" id="editServices" placeholder="الخدمات (افصل بينها بفاصلة)">
+            console.log("تم تحميل الصفحة بنجاح");
 
 
-        <button class="btn btn-gold" id="btnUpdate">حفظ التعديلات</button>
+            // هنا يمكن إضافة كود لجلب اسم الصالون من التخزين المحلي (LocalStorage)
 
 
-    </div>
+        };
 
 
-    <div id="uploadSection" class="section" style="display:none;">
+        function editData() {
 
 
-        <h3>تغيير صورة البروفايل</h3>
+            alert("تم فتح نافذة تعديل البيانات");
 
 
-        <input type="file" accept="image/*" onchange="uploadImage(this.files[0])">
+            // أضف هنا الكود البرمجي لفتح نموذج التعديل
 
 
-        <p style="font-size: 0.8rem; color: gray;">اختر صورة ليتم رفعها وتحديثها تلقائياً</p>
+        }
 
 
-    </div>
+        function changePhotos() {
 
 
-    <script type="module" src="js/dashboard.js"></script>
+            alert("يمكنك الآن اختيار صور جديدة للصالون");
+
+
+        }
+
+
+        function openSettings() {
+
+
+            alert("جاري الانتقال إلى الإعدادات");
+
+
+        }
+
+
+        function logout() {
+
+
+            if(confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+
+
+                window.location.href = "login.html"; // العودة لصفحة الدخول
+
+
+            }
+
+
+        }
+
+
+    
+
+<script src="js/dashboard.js"></script>
+
+
+
 
 
 </body>

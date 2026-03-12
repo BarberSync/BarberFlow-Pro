@@ -25,25 +25,59 @@ onAuthStateChanged(auth, async (user) => {
 
 // --- الوظائف ---
 async function loadSalonData(uid) {
+
+
     const docRef = doc(db, "salons", uid);
+
+
     const docSnap = await getDoc(docRef);
+
+
     if (docSnap.exists()) {
-        document.getElementById('display-salon-name').innerText = docSnap.data().name;
+
+
+        document.getElementById('display-salon-name').innerText = docSnap.data().shopName;
+
+
     }
+
+
 }
+
 
 
 function editData() {
+
+
     const user = auth.currentUser;
+
+
     const newName = prompt("أدخل اسم الصالون الجديد:");
+
+
     if (newName) {
-        updateDoc(doc(db, "salons", user.uid), { name: newName })
+
+
+        updateDoc(doc(db, "salons", user.uid), { shopName: newName })
+
+
         .then(() => {
+
+
             document.getElementById('display-salon-name').innerText = newName;
+
+
             alert("تم التحديث!");
+
+
         });
+
+
     }
+
+
 }
+
 
 
 function logout() {

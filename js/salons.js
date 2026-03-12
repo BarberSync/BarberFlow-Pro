@@ -1,60 +1,85 @@
-// js/salons.js
 import { db, collection, getDocs } from "./firebase-init.js";
 
 
 const salonsList = document.getElementById('salonsList');
 
 
-// دالة مشاركة الصالون (الوظيفة التي فقدتها)
 window.shareSalon = async (name, city) => {
     if (navigator.share) {
         try {
             await navigator.share({
                 title: name,
-                text: `اكتشف صالون ${name} في مدينة ${city}`
+                text: `اكتشف صالون ${name} في مدينة ${city} عبر BarberFlow-Pro`,
+                url: window.location.href,
             });
-        } catch (err) { console.log("خطأ في المشاركة", err); }
+        } catch (err) {
+            console.log("Error sharing:", err);
+        }
+    } else {
+        alert("ميزة المشاركة غير مدعومة في متصفحك، يمكنك نسخ الرابط.");
     }
 };
 
 
-// دالة جلب الصالونات وتنسيق البطاقات
 async function loadSalons() {
     try {
         const querySnapshot = await getDocs(collection(db, "salons"));
-        salonsList.innerHTML = '';
+        salonsList.innerHTML = ""; 
+
+
+        if (querySnapshot.empty) {
+            salonsList.innerHTML = "<p style='text-align:center;'>لا يوجد صالونات مسجلة حالياً.</p>";
+            return;
+        }
 
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             
-            // هنا التصميم الكامل للبطاقة كما كان في ملفك الأصلي
             const card = `
-                <div class="salon-card" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px;">
-                    <h3>${data.shopName}</h3>
-                    <p>العنوان: ${data.address} - ${data.city || ''}</p>
-                    
-                    <div class="work-gallery" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin:15px 0;">
-                        ${data.workImages ? data.workImages.map(img => `<img src="${img}" style="width:100%; height:70px; object-fit:cover; border-radius:8px;">`).join('') : ''}
+                <div class="salon-card section" style="padding:0; overflow:hidden; border: 1px solid var(--gold); margin-bottom:30px;">
+                    <div class="profile-header" style="background-image: url('${data.coverUrl || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800'}'); height:150px; background-size:cover; position:relative; background-position:center;">
+                        <img src="${data.profileUrl || 'https://cdn-icons-png.flaticon.com/512/147/147144.png'}" 
+                             class="profile-pic" 
+                             style="width:80px; height:80px; border-radius:50%; border:3px solid white; position:absolute; bottom:-40px; right:20px; background:#fff;">
                     </div>
+                    
+                    <div class="salon-info" style="padding: 50px 20px 20px;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div>
+                                <h3 style="margin:0;">${data.shopName}</h3>
+                                <p style="color:var(--gray); font-size:0.9rem; margin:5px 0;">📍 ${data.city} - ${data.address}</p>
+                            </div>
+                            <button onclick="shareSalon('${data.shopName}', '${data.city}')" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🔗</button>
+                        </div>
 
-                    <div style="display:flex; gap:10px; margin-top:20px;">
-                        <a href="https://maps.google.com/?q=${encodeURIComponent(data.address + ' ' + (data.city || ''))}" 
-                           target="_blank" class="btn btn-outline" style="flex:1; text-align:center; padding:10px; border:1px solid #ccc; text-decoration:none; color:black;">📍 الموقع</a>
-                        
-                        <a href="https://wa.me/${data.phone}" 
-                           class="btn btn-gold" style="flex:2; text-align:center; padding:10px; background:#d4af37; color:white; text-decoration:none;">💬 احجز عبر واتساب</a>
+
+                        <p style="margin:15px 0; font-size:0.9rem;">
+                            🛠️ الخدمات: ${data.services && data.services.trim() !== "" ? data.services : 'لم تذكر أي خدمات بعد'}
+                        </p>
+                                              
+                        <div class="work-gallery" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin:15px 0;">
+                            ${data.workImages ? data.workImages.map(img => `<img src="${img}" style="width:100%; height:70px; object-fit:cover; border-radius:8px;">`).join('') : ''}
+                        </div>
+
+
+                        <div style="display:flex; gap:10px; margin-top:20px;">
+                            <a href="https://maps.google.com/?q=${encodeURIComponent(data.address + ' ' + data.city)}" 
+                               target="_blank" class="btn btn-outline" style="flex:1; font-size:0.8rem; padding:10px;">📍 الموقع</a>
+                            
+                            <a href="https://wa.me/${data.phone}" 
+                               class="btn btn-gold" style="flex:2; font-size:0.8rem; padding:10px;">💬 احجز عبر واتساب</a>
+                        </div>
                     </div>
                 </div>
             `;
             salonsList.innerHTML += card;
         });
     } catch (error) {
-        console.error("خطأ أثناء التحميل:", error);
+        console.error("Error loading salons:", error);
         salonsList.innerHTML = "<p style='text-align:center;'>حدث خطأ أثناء تحميل البيانات.</p>";
     }
 }
 
 
-// تشغيل الدالة
 loadSalons();

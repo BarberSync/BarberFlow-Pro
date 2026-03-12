@@ -1,111 +1,90 @@
 
 
-// الانتظار حتى تحميل الصفحة بالكامل قبل البدء
+// استيراد الأدوات اللازمة من ملف الـ Firebase الخاص بك
 
 
-document.addEventListener('DOMContentLoaded', () => {
+import { auth, db, doc, updateDoc, onAuthStateChanged, signOut } from "./firebase-init.js";
 
 
-    console.log("تم تفعيل لوحة التحكم - BarberFlow-Pro");
+import { getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-    checkAuthState();
+// --- حزمة التحقق من الهوية واسترجاع البيانات ---
+
+
+onAuthStateChanged(auth, async (user) => {
+
+
+    if (user) {
+
+
+        console.log("تم تسجيل الدخول:", user.email);
+
+
+        await loadSalonData(user.uid);
+
+
+    } else {
+
+
+        window.location.href = "login.html";
+
+
+    }
 
 
 });
 
 
-// --- حزمة التحقق من الهوية (Authentication) ---
+async function loadSalonData(uid) {
 
 
-function checkAuthState() {
+    try {
 
 
-    firebase.auth().onAuthStateChanged((user) => {
+        const docRef = doc(db, "salons", uid);
 
 
-        if (user) {
+        const docSnap = await getDoc(docRef);
 
 
-            console.log("مرحباً بك، المستخدم متصل:", user.email);
+        if (docSnap.exists()) {
 
 
-            loadSalonData(user.uid);
+            const data = docSnap.data();
 
 
-        } else {
-
-
-            console.warn("لا يوجد مستخدم متصل، جاري التحويل لصفحة الدخول...");
-
-
-            window.location.href = "login.html";
-
-
-        }
-
-
-    });
-
-
-}
-
-
-// --- حزمة جلب البيانات من Firebase Database ---
-
-
-function loadSalonData(uid) {
-
-
-    const salonRef = firebase.database().ref('salons/' + uid);
-
-
-    // استخدام 'on' يجعل البيانات تتحدث فوراً عند تغييرها في Firebase
-
-
-    salonRef.on('value', (snapshot) => {
-
-
-        const data = snapshot.val();
-
-
-        const nameDisplay = document.getElementById('display-salon-name');
-
-
-        if (data && data.name) {
-
-
-            nameDisplay.innerText = data.name;
+            document.getElementById('display-salon-name').innerText = data.name || "اسم الصالون";
 
 
         } else {
 
 
-            nameDisplay.innerText = "اسم الصالون غير محدد";
+            console.log("لا توجد بيانات لهذا الصالون في Firestore");
 
 
         }
 
 
-    }, (error) => {
+    } catch (error) {
 
 
-        console.error("خطأ في جلب البيانات من Firebase:", error);
+        console.error("خطأ في جلب البيانات:", error);
 
 
-    });
+    }
 
 
 }
 
 
-// --- حزمة أزرار التحكم والوظائف ---
+// --- حزمة الأزرار والوظائف (تعريفها كأحداث Window لتعمل مع HTML) ---
 
 
-function editData() {
+window.editData = async function() {
 
 
-    const user = firebase.auth().currentUser;
+    const user = auth.currentUser;
 
 
     if (!user) return;
@@ -117,97 +96,46 @@ function editData() {
     if (newName && newName.trim() !== "") {
 
 
-        firebase.database().ref('salons/' + user.uid).update({
+        try {
 
 
-            name: newName
+            const salonRef = doc(db, "salons", user.uid);
 
 
-        }).then(() => {
+            await updateDoc(salonRef, { name: newName });
 
 
-            alert("تم تحديث البيانات بنجاح!");
+            document.getElementById('display-salon-name').innerText = newName;
 
 
-        }).catch((error) => {
+            alert("تم تحديث الاسم بنجاح!");
 
 
-            alert("حدث خطأ أثناء الحفظ: " + error.message);
+        } catch (error) {
 
 
-        });
-
-
-    }
-
-
-}
-
-
-function changePhotos() {
-
-
-    // وظيفة لاختيار ملف من الجهاز
-
-
-    const fileInput = document.createElement('input');
-
-
-    fileInput.type = 'file';
-
-
-    fileInput.accept = 'image/*';
-
-
-    fileInput.onchange = (e) => {
-
-
-        const file = e.target.files[0];
-
-
-        if (file) {
-
-
-            alert("تم اختيار الصورة: " + file.name + "\n(سيتم تفعيل الرفع لـ Firebase Storage في التحديث القادم)");
+            alert("خطأ في التحديث: " + error.message);
 
 
         }
 
 
-    };
+    }
 
 
-    fileInput.click();
+};
 
 
-}
+window.logout = function() {
 
 
-function openSettings() {
+    if (confirm("هل تريد تسجيل الخروج؟")) {
 
 
-    alert("جاري فتح الإعدادات المتقدمة...");
-
-
-}
-
-
-function logout() {
-
-
-    if (confirm("هل أنت متأكد من رغبتك في تسجيل الخروج؟")) {
-
-
-        firebase.auth().signOut().then(() => {
+        signOut(auth).then(() => {
 
 
             window.location.href = "login.html";
-
-
-        }).catch((error) => {
-
-
-            console.error("خطأ أثناء تسجيل الخروج:", error);
 
 
         });
@@ -216,6 +144,24 @@ function logout() {
     }
 
 
-}
+};
+
+
+window.changePhotos = function() {
+
+
+    alert("هذه الميزة ستستخدم Firebase Storage قريباً.");
+
+
+};
+
+
+window.openSettings = function() {
+
+
+    alert("جاري فتح الإعدادات...");
+
+
+};
 
 

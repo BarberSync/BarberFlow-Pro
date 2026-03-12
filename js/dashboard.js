@@ -1,110 +1,45 @@
-import { db, storage, doc, getDoc, updateDoc, ref, uploadBytes, getDownloadURL } from "./firebase-init.js";
 
 
-import { logout } from "./auth.js";
+// الانتظار حتى تحميل الصفحة بالكامل قبل البدء
 
 
-const barberUid = localStorage.getItem('barberUid');
+document.addEventListener('DOMContentLoaded', () => {
 
 
-// 1. دالة القائمة المنسدلة
-window.toggleMenu = () => {
+    console.log("تم تفعيل لوحة التحكم - BarberFlow-Pro");
 
 
-    const menu = document.getElementById('settingsMenu');
-
-
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-
-
-};
-
-
-// 2. دالة تسجيل الخروج
-window.logout = logout;
-
-
-// 3. تحميل بيانات الصالون عند فتح الصفحة
-window.addEventListener('load', async () => {
-
-
-    if (!barberUid) return window.location.href = "login.html";
-
-
-    const docSnap = await getDoc(doc(db, "salons", barberUid));
-
-
-    if (docSnap.exists()) {
-
-
-        const data = docSnap.data();
-
-
-        document.getElementById('shopNameDisplay').innerText = data.shopName;
-
-
-        document.getElementById('editShopName').value = data.shopName;
-
-
-        document.getElementById('editServices').value = data.services || "";
-
-
-        if (data.profileUrl) document.getElementById('profileImg').src = data.profileUrl;
-
-
-    }
+    checkAuthState();
 
 
 });
 
 
-// 4. تفعيل زر حفظ التعديلات
-const btnUpdate = document.getElementById('btnUpdate');
+// --- حزمة التحقق من الهوية (Authentication) ---
 
 
-if (btnUpdate) {
+function checkAuthState() {
 
 
-    btnUpdate.addEventListener('click', async () => {
+    firebase.auth().onAuthStateChanged((user) => {
 
 
-        const newShopName = document.getElementById('editShopName').value;
+        if (user) {
 
 
-        const newServices = document.getElementById('editServices').value;
+            console.log("مرحباً بك، المستخدم متصل:", user.email);
 
 
-        try {
+            loadSalonData(user.uid);
 
 
-            const salonRef = doc(db, "salons", barberUid);
+        } else {
 
 
-            await updateDoc(salonRef, {
+            console.warn("لا يوجد مستخدم متصل، جاري التحويل لصفحة الدخول...");
 
 
-                shopName: newShopName,
-
-
-                services: newServices
-
-
-            });
-
-
-            alert("تم تحديث البيانات بنجاح!");
-
-
-            document.getElementById('shopNameDisplay').innerText = newShopName;
-
-
-            document.getElementById('editSection').style.display = 'none';
-
-
-        } catch (error) {
-
-
-            alert("حدث خطأ أثناء التحديث.");
+            window.location.href = "login.html";
 
 
         }
@@ -116,38 +51,171 @@ if (btnUpdate) {
 }
 
 
-// 5. تفعيل خاصية تغيير صور البروفايل
-window.uploadImage = async (file) => {
+// --- حزمة جلب البيانات من Firebase Database ---
 
 
-    try {
+function loadSalonData(uid) {
 
 
-        const storageRef = ref(storage, `profiles/${barberUid}`);
+    const salonRef = firebase.database().ref('salons/' + uid);
 
 
-        await uploadBytes(storageRef, file);
+    // استخدام 'on' يجعل البيانات تتحدث فوراً عند تغييرها في Firebase
 
 
-        const url = await getDownloadURL(storageRef);
+    salonRef.on('value', (snapshot) => {
 
 
-        await updateDoc(doc(db, "salons", barberUid), { profileUrl: url });
+        const data = snapshot.val();
 
 
-        document.getElementById('profileImg').src = url;
+        const nameDisplay = document.getElementById('display-salon-name');
 
 
-        alert("تم تحديث الصورة!");
+        if (data && data.name) {
 
 
-    } catch (error) {
+            nameDisplay.innerText = data.name;
 
 
-        alert("فشل رفع الصورة.");
+        } else {
+
+
+            nameDisplay.innerText = "اسم الصالون غير محدد";
+
+
+        }
+
+
+    }, (error) => {
+
+
+        console.error("خطأ في جلب البيانات من Firebase:", error);
+
+
+    });
+
+
+}
+
+
+// --- حزمة أزرار التحكم والوظائف ---
+
+
+function editData() {
+
+
+    const user = firebase.auth().currentUser;
+
+
+    if (!user) return;
+
+
+    const newName = prompt("أدخل اسم الصالون الجديد:");
+
+
+    if (newName && newName.trim() !== "") {
+
+
+        firebase.database().ref('salons/' + user.uid).update({
+
+
+            name: newName
+
+
+        }).then(() => {
+
+
+            alert("تم تحديث البيانات بنجاح!");
+
+
+        }).catch((error) => {
+
+
+            alert("حدث خطأ أثناء الحفظ: " + error.message);
+
+
+        });
 
 
     }
 
 
-};
+}
+
+
+function changePhotos() {
+
+
+    // وظيفة لاختيار ملف من الجهاز
+
+
+    const fileInput = document.createElement('input');
+
+
+    fileInput.type = 'file';
+
+
+    fileInput.accept = 'image/*';
+
+
+    fileInput.onchange = (e) => {
+
+
+        const file = e.target.files[0];
+
+
+        if (file) {
+
+
+            alert("تم اختيار الصورة: " + file.name + "\n(سيتم تفعيل الرفع لـ Firebase Storage في التحديث القادم)");
+
+
+        }
+
+
+    };
+
+
+    fileInput.click();
+
+
+}
+
+
+function openSettings() {
+
+
+    alert("جاري فتح الإعدادات المتقدمة...");
+
+
+}
+
+
+function logout() {
+
+
+    if (confirm("هل أنت متأكد من رغبتك في تسجيل الخروج؟")) {
+
+
+        firebase.auth().signOut().then(() => {
+
+
+            window.location.href = "login.html";
+
+
+        }).catch((error) => {
+
+
+            console.error("خطأ أثناء تسجيل الخروج:", error);
+
+
+        });
+
+
+    }
+
+
+}
+
+

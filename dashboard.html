@@ -139,16 +139,16 @@
             <div class="btn-group">
 
 
-                <button class="action-btn" onclick="openSettings()">⚙️ الإعدادات</button>
+                <button class="action-btn" id="btn-settings">⚙️ الإعدادات</button>
 
 
-                <button class="action-btn" onclick="editData()">تعديل البيانات</button>
+                <button class="action-btn" id="btn-edit">تعديل البيانات</button>
 
 
-                <button class="action-btn" onclick="changePhotos()">تغيير الصور</button>
+                <button class="action-btn" id="btn-photos">تغيير الصور</button>
 
 
-                <button class="action-btn" style="color: red;" onclick="logout()">خروج</button>
+                <button class="action-btn" id="btn-logout" style="color: red;">خروج</button>
 
 
             </div>
@@ -223,12 +223,10 @@
         }
 
 
-    
-
-<script type="module" src="js/dashboard.js"></script>
+    </script>
 
 
-
+    <script type="module" src="js/dashboard.js"></script>
 
 
 </body>

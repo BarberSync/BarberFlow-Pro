@@ -1,8 +1,7 @@
-// استيراد الدوال الوظيفية من ملف المصادقة
+// استيراد الدوال الوظيفية
 import { login, signUp, logout } from "./auth.js";
 
 
-// عند تحميل الصفحة، نقوم بتهيئة المستمعين للأحداث
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -11,7 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            signUp(); 
+            
+            // جمع البيانات من الحقول
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const shopName = document.getElementById('shopName').value;
+            const ownerName = document.getElementById('ownerName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            
+            // إرسال البيانات للدالة
+            signUp(email, password, shopName, ownerName, phone, address); 
         });
     }
 
@@ -21,7 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            login(); 
+            
+            // جمع البيانات من الحقول
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // إرسال البيانات للدالة
+            login(email, password); 
         });
     }
 

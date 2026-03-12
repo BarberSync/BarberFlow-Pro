@@ -1,4 +1,4 @@
-// js/salons.jsايات
+// js/salons.js
 import { db, collection, getDocs } from "./firebase-init.js";
 
 

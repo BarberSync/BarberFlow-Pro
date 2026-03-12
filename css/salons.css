@@ -1,0 +1,25 @@
+/* داخل ملف salons.css */
+.salon-card {
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background: #fff;
+}
+
+.profile-header {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid white;
+    position: absolute;
+    bottom: -40px;
+    right: 20px;
+}

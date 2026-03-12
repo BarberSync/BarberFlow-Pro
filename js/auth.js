@@ -1,4 +1,4 @@
- // --- حزمة إدارة المصادقة (Authentication) ---
+// --- حزمة إدارة المصادقة (Authentication) ---
 
 
 import { auth, db } from "./firebase-init.js";
@@ -7,7 +7,6 @@ import { auth, db } from "./firebase-init.js";
 import { 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
-    onAuthStateChanged, 
     signOut 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -15,189 +14,50 @@ import {
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-// 1. مراقبة حالة المستخدم (هل هو متصل؟)
+// 1. دالة تسجيل صالون جديد
+export const signUp = async (email, password, shopName, ownerName, phone, address) => {
+    try {
+        // إنشاء الحساب في Firebase Auth
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
 
-onAuthStateChanged(auth, (user) => {
+        // حفظ بيانات الصالون في Firestore
+        await setDoc(doc(db, "salons", user.uid), {
+            shopName: shopName,
+            ownerName: ownerName,
+            phone: phone,
+            address: address,
+            uid: user.uid
+        });
 
 
-    if (user) {
-
-
-        localStorage.setItem('barberUid', user.uid);
-
-
-        console.log("المستخدم متصل حالياً:", user.email);
-
-
-    } else {
-
-
-        const currentPage = window.location.pathname;
-
-
-        if (currentPage.includes("dashboard.html")) {
-
-
-            window.location.href = "login.html"; // توجيه للمكان الصحيح
-
-
-        }
-
-
+        alert("تم تسجيل صالونك بنجاح!");
+        window.location.href = "dashboard.html";
+    } catch (error) {
+        console.error("خطأ في التسجيل:", error.message);
+        alert("عذراً، حدث خطأ أثناء التسجيل: " + error.message);
     }
-
-
-});
-
-
-// 2. دالة تسجيل صالون جديد (التي كانت في register.js سابقاً)
-
-
-const registerForm = document.getElementById('registerForm');
-
-
-if (registerForm) {
-
-
-    registerForm.addEventListener('submit', async (e) => {
-
-
-        e.preventDefault();
-
-
-        const email = document.getElementById('email').value;
-
-
-        const password = document.getElementById('password').value;
-
-
-        const shopName = document.getElementById('shopName').value;
-
-
-        try {
-
-
-            // إنشاء الحساب في Firebase Auth
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-
-            const user = userCredential.user;
-
-
-            // حفظ بيانات الصالون الإضافية في Firestore
-            await setDoc(doc(db, "salons", user.uid), {
-
-
-                shopName: shopName,
-
-
-                ownerName: document.getElementById('ownerName').value,
-
-
-                phone: document.getElementById('phone').value,
-
-
-                address: document.getElementById('address').value,
-
-
-                uid: user.uid
-
-
-            });
-
-
-            alert("تم تسجيل صالونك بنجاح!");
-
-
-            window.location.href = "dashboard.html";
-
-
-        } catch (error) {
-
-
-            console.error("خطأ في التسجيل:", error.message);
-
-
-            alert("عذراً، حدث خطأ أثناء التسجيل: " + error.message);
-
-
-        }
-
-
-    });
-
-
-}
-
-// 4. دالة تسجيل الدخول (إضافة جديدة)
-
-
-const loginForm = document.getElementById('loginForm');
-
-
-if (loginForm) {
-
-
-    loginForm.addEventListener('submit', async (e) => {
-
-
-        e.preventDefault(); // لمنع تحديث الصفحة
-
-
-        const email = document.getElementById('loginEmail').value;
-
-
-        const password = document.getElementById('loginPassword').value;
-
-
-        try {
-
-
-            await signInWithEmailAndPassword(auth, email, password);
-
-
-            alert("تم تسجيل الدخول بنجاح!");
-
-
-            window.location.href = "dashboard.html";
-
-
-        } catch (error) {
-
-
-            console.error("خطأ في الدخول:", error.message);
-
-
-            alert("خطأ في الدخول: تأكد من البريد وكلمة المرور.");
-
-
-        }
-
-
-    });
-
-
-}
-
+};
+
+
+// 2. دالة تسجيل الدخول
+export const login = async (email, password) => {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("تم تسجيل الدخول بنجاح!");
+        window.location.href = "dashboard.html";
+    } catch (error) {
+        console.error("خطأ في الدخول:", error.message);
+        alert("خطأ في الدخول: تأكد من البريد وكلمة المرور.");
+    }
+};
 
 
 // 3. دالة تسجيل الخروج
-
-
 export const logout = () => {
-
-
     signOut(auth).then(() => {
-
-
         localStorage.clear();
-
-
         window.location.href = "index.html";
-
-
     });
-
-
 };

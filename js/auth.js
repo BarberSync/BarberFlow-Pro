@@ -1,63 +1,49 @@
-// --- حزمة إدارة المصادقة (Authentication) ---
+// --- 1. استيراد الأدوات الأساسية فقط من خوادم جوجل ---
 
 
-import { auth, db } from "./firebase-init.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 
-import { 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    signOut 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// 1. دالة تسجيل صالون جديد
-export const signUp = async (email, password, shopName, ownerName, phone, address) => {
-    try {
-        // إنشاء الحساب في Firebase Auth
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+// --- 2. إعدادات مشروعك (لا تقم بتغيير القيم هنا) ---
 
 
-        // حفظ بيانات الصالون في Firestore
-        await setDoc(doc(db, "salons", user.uid), {
-            shopName: shopName,
-            ownerName: ownerName,
-            phone: phone,
-            address: address,
-            uid: user.uid
-        });
+const firebaseConfig = {
 
 
-        alert("تم تسجيل صالونك بنجاح!");
-        window.location.href = "dashboard.html";
-    } catch (error) {
-        console.error("خطأ في التسجيل:", error.message);
-        alert("عذراً، حدث خطأ أثناء التسجيل: " + error.message);
-    }
+    apiKey: "AIzaSyB8s5Qjcoo45cxloelyYP181l_TZWsXaCw",
+
+
+    authDomain: "barberflow-v2-c90d8.firebaseapp.com",
+
+
+    projectId: "barberflow-v2-c90d8",
+
+
+    storageBucket: "barberflow-v2-c90d8.firebasestorage.app",
+
+
+    messagingSenderId: "599133211849",
+
+
+    appId: "1:599133211849:web:f9ec18973417432d439118"
+
+
 };
 
 
-// 2. دالة تسجيل الدخول
-export const login = async (email, password) => {
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("تم تسجيل الدخول بنجاح!");
-        window.location.href = "dashboard.html";
-    } catch (error) {
-        console.error("خطأ في الدخول:", error.message);
-        alert("خطأ في الدخول: تأكد من البريد وكلمة المرور.");
-    }
-};
+// --- 3. تشغيل الخدمات وتصديرها للاستخدام في الملفات الأخرى ---
 
 
-// 3. دالة تسجيل الخروج
-export const logout = () => {
-    signOut(auth).then(() => {
-        localStorage.clear();
-        window.location.href = "index.html";
-    });
-};
+const app = initializeApp(firebaseConfig);
+
+
+export const db = getFirestore(app);
+
+
+export const auth = getAuth(app);

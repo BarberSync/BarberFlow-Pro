@@ -1,15 +1,14 @@
-// --- 1. استيراد الدوال من ملف العمليات ---
+// استيراد الدوال الوظيفية من ملفات العمليات
+import { login, signUp, logout } from "./auth.js";
 
 
-import { signUp, login, logout } from "./auth.js";
+import { editSalonName } from "./dashboard.js";
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // --- 2. معالج نموذج التسجيل ---
-
-
+    // 1. التعامل مع نموذج التسجيل
     const registerForm = document.getElementById('registerForm');
 
 
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const address = document.getElementById('address').value;
 
 
-            signUp(email, password, shopName, ownerName, phone, address);
+            signUp(email, password, shopName, ownerName, phone, address); 
 
 
         });
@@ -49,9 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 3. معالج نموذج تسجيل الدخول ---
-
-
+    // 2. التعامل مع نموذج الدخول
     const loginForm = document.getElementById('loginForm');
 
 
@@ -70,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('loginPassword').value;
 
 
-            login(email, password);
+            login(email, password); 
 
 
         });
@@ -79,9 +76,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 4. معالج زر تسجيل الخروج ---
+    // 3. التعامل مع زر تعديل البيانات
+    const btnEdit = document.getElementById('btn-edit');
 
 
+    if (btnEdit) {
+
+
+        btnEdit.addEventListener('click', () => {
+
+
+            editSalonName();
+
+
+        });
+
+
+    }
+
+
+    // 4. التعامل مع زر الخروج
     const logoutBtn = document.getElementById('btn-logout');
 
 

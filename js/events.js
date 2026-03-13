@@ -1,7 +1,7 @@
-// استيراد الدوال الوظيفية المتبقية فقط
+// استيراد الدوال الوظيفية المشتركة فقط
 
 
-import { login, logout } from "./auth.js";
+import { logout } from "./auth.js";
 
 
 import { editSalonName } from "./dashboard.js";
@@ -13,55 +13,7 @@ import { editSalonName } from "./dashboard.js";
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // --- 1. التعامل مع نموذج الدخول (خاص بـ login.html) ---
-
-
-    const loginForm = document.getElementById('loginForm');
-
-
-    if (loginForm) {
-
-
-        loginForm.addEventListener('submit', (e) => {
-
-
-            e.preventDefault();
-
-
-            const email = document.getElementById('loginEmail').value;
-
-
-            const password = document.getElementById('loginPassword').value;
-
-
-            login(email, password); 
-
-
-        });
-
-
-    }
-
-
-    // --- 2. التعامل مع أزرار لوحة التحكم (خاص بـ dashboard.html) ---
-
-
-    const btnEdit = document.getElementById('btn-edit');
-
-
-    if (btnEdit) {
-
-
-        btnEdit.addEventListener('click', () => {
-
-
-            editSalonName(); 
-
-
-        });
-
-
-    }
+    // --- 1. التعامل مع زر الخروج (متاح في لوحة التحكم) ---
 
 
     const logoutBtn = document.getElementById('btn-logout');
@@ -74,6 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             logout(); 
+
+
+        });
+
+
+    }
+
+
+    // --- 2. التعامل مع زر تعديل البيانات (متاح في لوحة التحكم) ---
+
+
+    const btnEdit = document.getElementById('btn-edit');
+
+
+    if (btnEdit) {
+
+
+        btnEdit.addEventListener('click', () => {
+
+
+            editSalonName(); 
 
 
         });

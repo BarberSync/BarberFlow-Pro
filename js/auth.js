@@ -1,8 +1,8 @@
-// استيراد قاعدة بيانات Firebase وخدمة المصادقة
+// --- 1. استيراد الخدمات المهيأة من ملف Firebase ---
 import { auth, db } from "./firebase-init.js";
 
 
-// استيراد وظائف Firebase للتعامل مع الحسابات (تسجيل، دخول، خروج)
+// --- 2. استيراد الوظائف المطلوبة من مكتبات Firebase ---
 import { 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
@@ -10,7 +10,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// استيراد وظائف Firestore لإنشاء وتحديث وثائق الصالونات
 import { 
     doc, 
     setDoc 
@@ -19,8 +18,8 @@ import {
 
 /**
  * دالة تسجيل صالون جديد:
- * تقوم بإنشاء مستخدم جديد في Firebase Auth،
- * ثم تخزن تفاصيل الصالون في Firestore.
+ * تقوم بإنشاء حساب في Firebase Auth،
+ * ثم تحفظ بيانات الصالون في قاعدة بيانات Firestore.
  */
 export const signUp = async (email, password, shopName, ownerName, phone, address) => {
 
@@ -34,6 +33,7 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
         const user = userCredential.user;
 
 
+        // حفظ تفاصيل الصالون في Firestore باستخدام uid المستخدم
         await setDoc(doc(db, "salons", user.uid), {
             shopName: shopName,
             ownerName: ownerName,
@@ -67,8 +67,7 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
 
 /**
  * دالة تسجيل الدخول:
- * تقوم بالتحقق من بريد وكلمة مرور الحلاق،
- * وفي حال النجاح يتم توجيهه إلى لوحة التحكم.
+ * تتحقق من بيانات الحلاق وتوجهه إلى لوحة التحكم.
  */
 export const login = async (email, password) => {
 
@@ -77,9 +76,6 @@ export const login = async (email, password) => {
 
 
         await signInWithEmailAndPassword(auth, email, password);
-
-
-        alert("تم تسجيل الدخول بنجاح!");
 
 
         window.location.href = "dashboard.html";
@@ -102,8 +98,7 @@ export const login = async (email, password) => {
 
 /**
  * دالة تسجيل الخروج:
- * تقوم بإنهاء جلسة المستخدم الحالية
- * وتوجهه إلى صفحة تسجيل الدخول.
+ * تقوم بإنهاء الجلسة وتوجه المستخدم لصفحة تسجيل الدخول.
  */
 export const logout = async () => {
 

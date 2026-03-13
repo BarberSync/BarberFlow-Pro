@@ -10,7 +10,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// --- 2. إعدادات مشروعك (لا تقم بتغيير القيم هنا) ---
+// --- 2. إعدادات المشروع (لا تقم بتغيير القيم هنا) ---
 
 
 const firebaseConfig = {

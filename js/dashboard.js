@@ -1,4 +1,4 @@
-// --- 1. استيراد خدمات Firebase ---
+// --- 1. استيراد الخدمات الأساسية ---
 import { auth, db } from "./firebase-init.js";
 
 
@@ -12,8 +12,8 @@ import {
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// --- 2. التحقق من حالة تسجيل الدخول ---\
-// يتم تنفيذ هذا الكود تلقائياً عند فتح الصفحة
+// --- 2. التحقق من حالة تسجيل الدخول ---
+// يتم تنفيذ هذا الكود تلقائياً عند فتح صفحة لوحة التحكم
 onAuthStateChanged(auth, async (user) => {
 
 
@@ -37,7 +37,7 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// --- 3. دالة جلب وعرض بيانات الصالون ---\
+// --- 3. دالة جلب وعرض بيانات الصالون ---
 async function loadSalonData(uid) {
 
 
@@ -56,8 +56,17 @@ async function loadSalonData(uid) {
             const data = docSnap.data();
 
 
-            // تحديث اسم الصالون في الصفحة
-            document.getElementById('display-salon-name').innerText = data.shopName;
+            // التحقق من وجود العنصر قبل التحديث لمنع حدوث الخطأ
+            const salonNameElement = document.getElementById('display-salon-name');
+
+
+            if (salonNameElement) {
+
+
+                salonNameElement.innerText = data.shopName;
+
+
+            }
 
 
         }
@@ -75,18 +84,21 @@ async function loadSalonData(uid) {
 }
 
 
-// --- 4. دالة تعديل اسم الصالون ---\
-// تُستدعى هذه الدالة من ملف events.js عند الضغط على زر التعديل
+// --- 4. دالة تعديل اسم الصالون ---
+// هذه الدالة محمية وتتحقق من وجود العنصر قبل التعديل
 export async function editSalonName() {
 
 
     const user = auth.currentUser;
 
 
+    if (!user) return;
+
+
     const newName = prompt("أدخل اسم الصالون الجديد:");
 
 
-    if (newName && user) {
+    if (newName && newName.trim() !== "") {
 
 
         try {
@@ -96,8 +108,17 @@ export async function editSalonName() {
             await updateDoc(doc(db, "salons", user.uid), { shopName: newName });
 
 
-            // تحديث العرض في الصفحة مباشرة
-            document.getElementById('display-salon-name').innerText = newName;
+            // التحقق من وجود العنصر قبل تعديل العرض
+            const salonNameElement = document.getElementById('display-salon-name');
+
+
+            if (salonNameElement) {
+
+
+                salonNameElement.innerText = newName;
+
+
+            }
 
 
             alert("تم تحديث اسم الصالون بنجاح!");

@@ -1,44 +1,114 @@
-import { auth } from './firebase-init.js';
+import { auth, db } from "./firebase-init.js";
 
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// وظيفة إنشاء حساب جديد
-export const registerUser = async (email, password) => {
+import { 
+    doc, 
+    setDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-    return await createUserWithEmailAndPassword(auth, email, password);
+// دالة تسجيل صالون جديد
+export const signUp = async (email, password, shopName, ownerName, phone, address) => {
+
+
+    try {
+
+
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+
+        const user = userCredential.user;
+
+
+        await setDoc(doc(db, "salons", user.uid), {
+            shopName: shopName,
+            ownerName: ownerName,
+            phone: phone,
+            address: address,
+            uid: user.uid,
+            createdAt: new Date()
+        });
+
+
+        alert("تم تسجيل صالونك بنجاح!");
+
+
+        window.location.href = "dashboard.html";
+
+
+    } catch (error) {
+
+
+        console.error("خطأ في التسجيل:", error.message);
+
+
+        alert("عذراً، حدث خطأ أثناء التسجيل: " + error.message);
+
+
+    }
 
 
 };
 
 
-// وظيفة تسجيل الدخول
-export const loginUser = async (email, password) => {
+// دالة تسجيل الدخول
+export const login = async (email, password) => {
 
 
-    return await signInWithEmailAndPassword(auth, email, password);
+    try {
+
+
+        await signInWithEmailAndPassword(auth, email, password);
+
+
+        alert("تم تسجيل الدخول بنجاح!");
+
+
+        window.location.href = "dashboard.html";
+
+
+    } catch (error) {
+
+
+        console.error("خطأ في الدخول:", error.message);
+
+
+        alert("خطأ في الدخول: تأكد من البريد وكلمة المرور");
+
+
+    }
 
 
 };
 
 
-// وظيفة تسجيل الخروج
-export const logoutUser = async () => {
+// دالة تسجيل الخروج
+export const logout = async () => {
 
 
-    return await signOut(auth);
+    try {
 
 
-};
+        await signOut(auth);
 
 
-// مراقبة حالة المستخدم (للتأكد من تسجيل الدخول في أي صفحة)
-export const checkAuthState = (callback) => {
+        window.location.href = "login.html";
 
 
-    onAuthStateChanged(auth, callback);
+    } catch (error) {
+
+
+        console.error("خطأ أثناء الخروج:", error);
+
+
+    }
 
 
 };

@@ -1,27 +1,33 @@
+// --- 1. استيراد خدمات Firebase ---
 import { auth, db } from "./firebase-init.js";
 
 
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+    doc, 
+    getDoc, 
+    updateDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// --- 1. التحقق من هوية المستخدم عند دخول الصفحة ---
-
-
+// --- 2. التحقق من حالة تسجيل الدخول ---\
+// يتم تنفيذ هذا الكود تلقائياً عند فتح الصفحة
 onAuthStateChanged(auth, async (user) => {
 
 
     if (user) {
 
 
+        // إذا كان المستخدم مسجلاً، نقوم بجلب بياناته
         await loadSalonData(user.uid);
 
 
     } else {
 
 
+        // إذا لم يكن مسجلاً، نوجهه لصفحة الدخول
         window.location.href = "login.html";
 
 
@@ -31,9 +37,7 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// --- 2. دالة جلب وعرض بيانات الصالون ---
-
-
+// --- 3. دالة جلب وعرض بيانات الصالون ---\
 async function loadSalonData(uid) {
 
 
@@ -52,6 +56,7 @@ async function loadSalonData(uid) {
             const data = docSnap.data();
 
 
+            // تحديث اسم الصالون في الصفحة
             document.getElementById('display-salon-name').innerText = data.shopName;
 
 
@@ -70,9 +75,8 @@ async function loadSalonData(uid) {
 }
 
 
-// --- 3. الدوال الوظيفية (تُستدعى من events.js) ---
-
-
+// --- 4. دالة تعديل اسم الصالون ---\
+// تُستدعى هذه الدالة من ملف events.js عند الضغط على زر التعديل
 export async function editSalonName() {
 
 
@@ -88,19 +92,24 @@ export async function editSalonName() {
         try {
 
 
+            // تحديث الاسم في قاعدة بيانات Firestore
             await updateDoc(doc(db, "salons", user.uid), { shopName: newName });
 
 
+            // تحديث العرض في الصفحة مباشرة
             document.getElementById('display-salon-name').innerText = newName;
 
 
-            alert("تم التحديث بنجاح!");
+            alert("تم تحديث اسم الصالون بنجاح!");
 
 
         } catch (error) {
 
 
-            alert("حدث خطأ أثناء التحديث");
+            console.error("خطأ في التعديل:", error);
+
+
+            alert("حدث خطأ أثناء التعديل.");
 
 
         }

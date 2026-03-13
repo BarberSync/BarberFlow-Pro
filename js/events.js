@@ -1,117 +1,81 @@
-// استيراد الدوال الوظيفية من ملفات العمليات
-import { login, signUp, logout } from "./auth.js";
+import { loginUser, registerUser, logoutUser } from './auth.js';
 
 
-import { editSalonName } from "./dashboard.js";
+// معالجة حدث تسجيل الدخول
+const loginForm = document.getElementById('loginForm');
 
 
-document.addEventListener('DOMContentLoaded', () => {
+if (loginForm) {
 
 
-    // 1. التعامل مع نموذج التسجيل
-    const registerForm = document.getElementById('registerForm');
+    loginForm.addEventListener('submit', async (e) => {
 
 
-    if (registerForm) {
+        e.preventDefault();
 
 
-        registerForm.addEventListener('submit', (e) => {
+        const email = document.getElementById('loginEmail').value;
 
 
-            e.preventDefault();
+        const password = document.getElementById('loginPassword').value;
 
 
-            const email = document.getElementById('email').value;
+        try {
 
 
-            const password = document.getElementById('password').value;
+            await loginUser(email, password);
 
 
-            const shopName = document.getElementById('shopName').value;
+            alert('تم تسجيل الدخول بنجاح!');
 
 
-            const ownerName = document.getElementById('ownerName').value;
+            window.location.href = 'dashboard.html';
 
 
-            const phone = document.getElementById('phone').value;
+        } catch (error) {
 
 
-            const address = document.getElementById('address').value;
+            alert('خطأ في تسجيل الدخول: ' + error.message);
 
 
-            signUp(email, password, shopName, ownerName, phone, address); 
+        }
 
 
-        });
+    });
 
 
-    }
+}
 
 
-    // 2. التعامل مع نموذج الدخول
-    const loginForm = document.getElementById('loginForm');
+// معالجة حدث تسجيل الخروج (مثلاً في صفحة لوحة التحكم)
+const btnLogout = document.getElementById('btn-logout');
 
 
-    if (loginForm) {
+if (btnLogout) {
 
 
-        loginForm.addEventListener('submit', (e) => {
+    btnLogout.addEventListener('click', async () => {
 
 
-            e.preventDefault();
+        try {
 
 
-            const email = document.getElementById('loginEmail').value;
+            await logoutUser();
 
 
-            const password = document.getElementById('loginPassword').value;
+            window.location.href = 'login.html';
 
 
-            login(email, password); 
+        } catch (error) {
 
 
-        });
+            alert('خطأ أثناء الخروج: ' + error.message);
 
 
-    }
+        }
 
 
-    // 3. التعامل مع زر تعديل البيانات
-    const btnEdit = document.getElementById('btn-edit');
+    });
 
 
-    if (btnEdit) {
-
-
-        btnEdit.addEventListener('click', () => {
-
-
-            editSalonName();
-
-
-        });
-
-
-    }
-
-
-    // 4. التعامل مع زر الخروج
-    const logoutBtn = document.getElementById('btn-logout');
-
-
-    if (logoutBtn) {
-
-
-        logoutBtn.addEventListener('click', () => {
-
-
-            logout();
-
-
-        });
-
-
-    }
-
-
-});
+}

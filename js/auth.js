@@ -1,4 +1,10 @@
+// --- 1. استيراد الخدمات المهيأة من ملفنا الخاص ---
+
+
 import { auth, db } from "./firebase-init.js";
+
+
+// --- 2. استيراد الوظائف المطلوبة من مكتبات Firebase الخارجية ---
 
 
 import { 
@@ -14,7 +20,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-// دالة تسجيل صالون جديد
+// --- 3. دالة تسجيل صالون جديد ---
+
+
 export const signUp = async (email, password, shopName, ownerName, phone, address) => {
 
 
@@ -58,7 +66,9 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
 };
 
 
-// دالة تسجيل الدخول
+// --- 4. دالة تسجيل الدخول ---
+
+
 export const login = async (email, password) => {
 
 
@@ -89,7 +99,9 @@ export const login = async (email, password) => {
 };
 
 
-// دالة تسجيل الخروج
+// --- 5. دالة تسجيل الخروج ---
+
+
 export const logout = async () => {
 
 
@@ -99,13 +111,13 @@ export const logout = async () => {
         await signOut(auth);
 
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
 
 
     } catch (error) {
 
 
-        console.error("خطأ أثناء الخروج:", error);
+        console.error("خطأ أثناء تسجيل الخروج:", error.message);
 
 
     }

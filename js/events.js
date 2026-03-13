@@ -1,14 +1,15 @@
-// استيراد الدوال الوظيفية من ملفات العمليات
+// --- 1. استيراد الدوال الوظيفية من ملفات العمليات ---
 import { login, signUp, logout } from "./auth.js";
 
 
 import { editSalonName } from "./dashboard.js";
 
 
+// --- 2. انتظار تحميل كامل عناصر الصفحة لضمان وجود الأزرار في الذاكرة ---
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // 1. التعامل مع نموذج التسجيل
+    // --- 3. التعامل مع نموذج التسجيل (register.html) ---
     const registerForm = document.getElementById('registerForm');
 
 
@@ -18,9 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         registerForm.addEventListener('submit', (e) => {
 
 
-            e.preventDefault();
+            e.preventDefault(); // منع إعادة تحميل الصفحة
 
 
+            // جمع البيانات من الحقول
             const email = document.getElementById('email').value;
 
 
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const address = document.getElementById('address').value;
 
 
+            // استدعاء دالة التسجيل
             signUp(email, password, shopName, ownerName, phone, address); 
 
 
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // 2. التعامل مع نموذج الدخول
+    // --- 4. التعامل مع نموذج الدخول (login.html) ---
     const loginForm = document.getElementById('loginForm');
 
 
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', (e) => {
 
 
-            e.preventDefault();
+            e.preventDefault(); // منع الإرسال التقليدي
 
 
             const email = document.getElementById('loginEmail').value;
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('loginPassword').value;
 
 
+            // تنفيذ عملية الدخول
             login(email, password); 
 
 
@@ -76,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // 3. التعامل مع زر تعديل البيانات
+    // --- 5. التعامل مع زر تعديل البيانات (داخل dashboard.html) ---
     const btnEdit = document.getElementById('btn-edit');
 
 
@@ -86,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnEdit.addEventListener('click', () => {
 
 
-            editSalonName();
+            editSalonName(); // تشغيل دالة تعديل الاسم
 
 
         });
@@ -95,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // 4. التعامل مع زر الخروج
+    // --- 6. التعامل مع زر تسجيل الخروج (موجود في عدة صفحات) ---
     const logoutBtn = document.getElementById('btn-logout');
 
 
@@ -105,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', () => {
 
 
-            logout();
+            logout(); // تنفيذ عملية الخروج من النظام
 
 
         });

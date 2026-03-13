@@ -1,8 +1,8 @@
-// --- 1. استيراد الخدمات المهيأة من ملف Firebase ---
+// استيراد الخدمات الأساسية
 import { auth, db } from "./firebase-init.js";
 
 
-// --- 2. استيراد الوظائف المطلوبة من مكتبات Firebase ---
+// استيراد وظائف Firebase
 import { 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
@@ -17,9 +17,7 @@ import {
 
 
 /**
- * دالة تسجيل صالون جديد:
- * تقوم بإنشاء حساب في Firebase Auth،
- * ثم تحفظ بيانات الصالون في قاعدة بيانات Firestore.
+ * دالة تسجيل صالون جديد
  */
 export const signUp = async (email, password, shopName, ownerName, phone, address) => {
 
@@ -33,7 +31,6 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
         const user = userCredential.user;
 
 
-        // حفظ تفاصيل الصالون في Firestore باستخدام uid المستخدم
         await setDoc(doc(db, "salons", user.uid), {
             shopName: shopName,
             ownerName: ownerName,
@@ -66,8 +63,7 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
 
 
 /**
- * دالة تسجيل الدخول:
- * تتحقق من بيانات الحلاق وتوجهه إلى لوحة التحكم.
+ * دالة تسجيل الدخول
  */
 export const login = async (email, password) => {
 
@@ -97,8 +93,7 @@ export const login = async (email, password) => {
 
 
 /**
- * دالة تسجيل الخروج:
- * تقوم بإنهاء الجلسة وتوجه المستخدم لصفحة تسجيل الدخول.
+ * دالة تسجيل الخروج
  */
 export const logout = async () => {
 

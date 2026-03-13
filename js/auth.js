@@ -1,12 +1,8 @@
-// --- 1. استيراد الخدمات المهيأة من ملفنا الخاص ---
-
-
+// استيراد قاعدة بيانات Firebase وخدمة المصادقة
 import { auth, db } from "./firebase-init.js";
 
 
-// --- 2. استيراد الوظائف المطلوبة من مكتبات Firebase الخارجية ---
-
-
+// استيراد وظائف Firebase للتعامل مع الحسابات (تسجيل، دخول، خروج)
 import { 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
@@ -14,15 +10,18 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
+// استيراد وظائف Firestore لإنشاء وتحديث وثائق الصالونات
 import { 
     doc, 
     setDoc 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-// --- 3. دالة تسجيل صالون جديد ---
-
-
+/**
+ * دالة تسجيل صالون جديد:
+ * تقوم بإنشاء مستخدم جديد في Firebase Auth،
+ * ثم تخزن تفاصيل الصالون في Firestore.
+ */
 export const signUp = async (email, password, shopName, ownerName, phone, address) => {
 
 
@@ -66,9 +65,11 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
 };
 
 
-// --- 4. دالة تسجيل الدخول ---
-
-
+/**
+ * دالة تسجيل الدخول:
+ * تقوم بالتحقق من بريد وكلمة مرور الحلاق،
+ * وفي حال النجاح يتم توجيهه إلى لوحة التحكم.
+ */
 export const login = async (email, password) => {
 
 
@@ -99,9 +100,11 @@ export const login = async (email, password) => {
 };
 
 
-// --- 5. دالة تسجيل الخروج ---
-
-
+/**
+ * دالة تسجيل الخروج:
+ * تقوم بإنهاء جلسة المستخدم الحالية
+ * وتوجهه إلى صفحة تسجيل الدخول.
+ */
 export const logout = async () => {
 
 
@@ -111,13 +114,13 @@ export const logout = async () => {
         await signOut(auth);
 
 
-        window.location.href = "index.html";
+        window.location.href = "login.html";
 
 
     } catch (error) {
 
 
-        console.error("خطأ أثناء تسجيل الخروج:", error.message);
+        console.error("خطأ في تسجيل الخروج:", error.message);
 
 
     }

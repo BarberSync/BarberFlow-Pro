@@ -1,14 +1,15 @@
-// استيراد الدوال من ملف العمليات
+// استيراد الدوال الوظيفية من ملف المصادقة واللوحة
 import { login, signUp, logout } from "./auth.js";
 
 
 import { editSalonName } from "./dashboard.js";
 
 
+// هذا المنسق يضمن عدم تنفيذ أي كود إلا إذا وُجد العنصر فعلياً في الصفحة الحالية
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // 1. ربط نموذج التسجيل (بناءً على id="registerForm" في register.html)
+    // --- 1. التعامل مع نموذج التسجيل (خاص بـ register.html) ---
     const registerForm = document.getElementById('registerForm');
 
 
@@ -39,16 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const address = document.getElementById('address').value;
 
 
-            signUp(email, password, shopName, ownerName, phone, address);
-
-
+            signUp(email, password, shopName, ownerName, phone, address); 
         });
 
 
     }
 
 
-    // 2. ربط نموذج الدخول (بناءً على id="loginForm" في login.html)
+    // --- 2. التعامل مع نموذج الدخول (خاص بـ login.html) ---
     const loginForm = document.getElementById('loginForm');
 
 
@@ -67,16 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('loginPassword').value;
 
 
-            login(email, password);
-
-
+            login(email, password); 
         });
 
 
     }
 
 
-    // 3. ربط أزرار لوحة التحكم (بناءً على id="btn-edit" و id="btn-logout" في dashboard.html)
+    // --- 3. التعامل مع أزرار لوحة التحكم (خاص بـ dashboard.html) ---
     const btnEdit = document.getElementById('btn-edit');
 
 
@@ -86,9 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnEdit.addEventListener('click', () => {
 
 
-            editSalonName();
-
-
+            editSalonName(); 
         });
 
 
@@ -104,9 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', () => {
 
 
-            logout();
-
-
+            logout(); 
         });
 
 

@@ -1,42 +1,67 @@
 import { auth, db } from "./firebase-init.js";
+
+
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// --- ربط الأزرار عند تحميل الصفحة ---
-document.addEventListener('DOMContentLoaded', () => {
-    // ربط الأزرار بالوظائف برمجياً
-    document.getElementById('btn-settings').addEventListener('click', openSettings);
-    document.getElementById('btn-edit').addEventListener('click', editData);
-    document.getElementById('btn-photos').addEventListener('click', changePhotos);
-    document.getElementById('btn-logout').addEventListener('click', logout);
-});
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// التحقق من حالة المستخدم
+// --- 1. التحقق من هوية المستخدم عند دخول الصفحة ---
+
+
 onAuthStateChanged(auth, async (user) => {
+
+
     if (user) {
+
+
         await loadSalonData(user.uid);
+
+
     } else {
+
+
         window.location.href = "login.html";
+
+
     }
+
+
 });
 
 
-// --- الوظائف ---
+// --- 2. دالة جلب وعرض بيانات الصالون ---
+
+
 async function loadSalonData(uid) {
 
 
-    const docRef = doc(db, "salons", uid);
+    try {
 
 
-    const docSnap = await getDoc(docRef);
+        const docRef = doc(db, "salons", uid);
 
 
-    if (docSnap.exists()) {
+        const docSnap = await getDoc(docRef);
 
 
-        document.getElementById('display-salon-name').innerText = docSnap.data().shopName;
+        if (docSnap.exists()) {
+
+
+            const data = docSnap.data();
+
+
+            document.getElementById('display-salon-name').innerText = data.shopName;
+
+
+        }
+
+
+    } catch (error) {
+
+
+        console.error("خطأ في تحميل البيانات:", error);
 
 
     }
@@ -45,8 +70,10 @@ async function loadSalonData(uid) {
 }
 
 
+// --- 3. الدوال الوظيفية (تُستدعى من events.js) ---
 
-function editData() {
+
+export async function editSalonName() {
 
 
     const user = auth.currentUser;
@@ -55,35 +82,31 @@ function editData() {
     const newName = prompt("أدخل اسم الصالون الجديد:");
 
 
-    if (newName) {
+    if (newName && user) {
 
 
-        updateDoc(doc(db, "salons", user.uid), { shopName: newName })
+        try {
 
 
-        .then(() => {
+            await updateDoc(doc(db, "salons", user.uid), { shopName: newName });
 
 
             document.getElementById('display-salon-name').innerText = newName;
 
 
-            alert("تم التحديث!");
+            alert("تم التحديث بنجاح!");
 
 
-        });
+        } catch (error) {
+
+
+            alert("حدث خطأ أثناء التحديث");
+
+
+        }
 
 
     }
 
 
 }
-
-
-
-function logout() {
-    signOut(auth).then(() => window.location.href = "login.html");
-}
-
-
-function openSettings() { alert("جاري فتح الإعدادات..."); }
-function changePhotos() { alert("ميزة رفع الصور قيد التطوير..."); }

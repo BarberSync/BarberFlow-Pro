@@ -91,7 +91,7 @@ async function loadSalons() {
                         </div>
 
                         <p style="margin:15px 0; font-size:0.9rem;">
-                            🛠️ الخدمات: ${data.services && data.services.trim() !== "" ? data.services : 'لم تذكر أي خدمات بعد'}
+                            ✂️✂️ الخدمات: ${data.services && data.services.trim() !== "" ? data.services : 'لم تذكر أي خدمات بعد'}
                         </p>
 
                         <div class="salon-description" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">

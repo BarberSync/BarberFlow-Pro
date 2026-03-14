@@ -1,33 +1,35 @@
 // --- 1. استيراد الخدمات الأساسية ---
+
+
 import { auth, db } from "./firebase-init.js";
 
 
 import { 
     doc, 
     getDoc, 
-    updateDoc 
+    updateDoc,
+    arrayUnion 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// --- 2. التحقق من حالة تسجيل الدخول ---
-// يتم تنفيذ هذا الكود تلقائياً عند فتح صفحة لوحة التحكم
+// --- 2. التحقق من حالة تسجيل الدخول وجلب البيانات ---
+
+
 onAuthStateChanged(auth, async (user) => {
 
 
     if (user) {
 
 
-        // إذا كان المستخدم مسجلاً، نقوم بجلب بياناته
         await loadSalonData(user.uid);
 
 
     } else {
 
 
-        // إذا لم يكن مسجلاً، نوجهه لصفحة الدخول
         window.location.href = "login.html";
 
 
@@ -38,6 +40,8 @@ onAuthStateChanged(auth, async (user) => {
 
 
 // --- 3. دالة جلب وعرض بيانات الصالون ---
+
+
 async function loadSalonData(uid) {
 
 
@@ -56,7 +60,6 @@ async function loadSalonData(uid) {
             const data = docSnap.data();
 
 
-            // التحقق من وجود العنصر قبل التحديث لمنع حدوث الخطأ
             const salonNameElement = document.getElementById('display-salon-name');
 
 
@@ -84,9 +87,11 @@ async function loadSalonData(uid) {
 }
 
 
-// --- 4. دالة تعديل اسم الصالون ---
-// هذه الدالة محمية وتتحقق من وجود العنصر قبل التعديل
-export async function editSalonName() {
+// --- 4. تفعيل أزرار لوحة التحكم (الوظائف الجديدة) ---
+
+
+// دالة تعديل البيانات (الاسم، العنوان، الوصف)
+export async function editSalonData() {
 
 
     const user = auth.currentUser;
@@ -95,42 +100,27 @@ export async function editSalonName() {
     if (!user) return;
 
 
-    const newName = prompt("أدخل اسم الصالون الجديد:");
+    const newDescription = prompt("أدخل وصفاً جديداً لأعمال الصالون:");
 
 
-    if (newName && newName.trim() !== "") {
+    if (newDescription !== null) {
 
 
         try {
 
 
-            // تحديث الاسم في قاعدة بيانات Firestore
-            await updateDoc(doc(db, "salons", user.uid), { shopName: newName });
+            await updateDoc(doc(db, "salons", user.uid), { 
+                workDescription: newDescription 
+            });
 
 
-            // التحقق من وجود العنصر قبل تعديل العرض
-            const salonNameElement = document.getElementById('display-salon-name');
-
-
-            if (salonNameElement) {
-
-
-                salonNameElement.innerText = newName;
-
-
-            }
-
-
-            alert("تم تحديث اسم الصالون بنجاح!");
+            alert("تم تحديث وصف الأعمال بنجاح!");
 
 
         } catch (error) {
 
 
-            console.error("خطأ في التعديل:", error);
-
-
-            alert("حدث خطأ أثناء التعديل.");
+            console.error("خطأ في التحديث:", error);
 
 
         }
@@ -140,3 +130,56 @@ export async function editSalonName() {
 
 
 }
+
+
+// دالة إضافة صور للمعرض (بشكل مؤقت عبر روابط حتى نبرمج الرفع الكامل)
+export async function addWorkImages() {
+
+
+    const user = auth.currentUser;
+
+
+    if (!user) return;
+
+
+    const imageUrl = prompt("أدخل رابط صورة لعملك (URL):");
+
+
+    if (imageUrl && imageUrl.trim() !== "") {
+
+
+        try {
+
+
+            await updateDoc(doc(db, "salons", user.uid), {
+
+
+                workImages: arrayUnion(imageUrl)
+
+
+            });
+
+
+            alert("تم إضافة الصورة للمعرض بنجاح!");
+
+
+        } catch (error) {
+
+
+            console.error("خطأ في إضافة الصورة:", error);
+
+
+        }
+
+
+    }
+
+
+}
+
+
+// ربط الأزرار بالوظائف (لأننا نستخدم type="module")
+document.getElementById('btn-edit')?.addEventListener('click', editSalonData);
+
+
+document.getElementById('btn-photos')?.addEventListener('click', addWorkImages);

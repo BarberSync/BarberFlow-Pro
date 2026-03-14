@@ -74,3 +74,60 @@
 
 
 <input type="file" id="galleryPics" style="display:none" accept="image/*" multiple onchange="handleFileUpload(this, 'gallery')">
+
+
+
+
+
+
+
+
+/* دالة لفتح النافذة المنبثقة */
+
+
+function openModal(id) {
+
+
+  document.getElementById(id).style.display = "block";
+
+
+}
+
+
+/* دالة لإغلاق النافذة المنبثقة */
+
+
+function closeModal(id) {
+
+
+  document.getElementById(id).style.display = "none";
+
+
+}
+
+
+/* إغلاق النافذة عند النقر خارج مساحتها */
+
+
+window.onclick = function(event) {
+
+
+  let modals = document.querySelectorAll('.modal');
+
+
+  modals.forEach(modal => {
+
+
+    if (event.target == modal) {
+
+
+      modal.style.display = "none";
+
+
+    }
+
+
+  });
+
+
+}

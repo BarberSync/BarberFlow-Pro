@@ -23,3 +23,58 @@
     bottom: -40px;
     right: 20px;
 }
+
+
+/* تحسين مظهر الصور عند التمرير عليها في المعرض */
+
+
+.gallery-item img {
+
+
+    transition: transform 0.3s ease, border-color 0.3s ease;
+
+
+    border: 2px solid transparent;
+
+
+}
+
+
+.gallery-item img:hover {
+
+
+    transform: scale(1.05);
+
+
+    border-color: var(--gold);
+
+
+}
+
+
+/* تنسيق نصوص وصف أعمال الصالون */
+
+
+.salon-description p {
+
+
+    font-style: italic;
+
+
+    background: #fdfdfd;
+
+
+    padding: 10px;
+
+
+    border-right: 3px solid var(--gold);
+
+
+    border-radius: 4px;
+
+
+    margin: 0;
+
+
+}
+

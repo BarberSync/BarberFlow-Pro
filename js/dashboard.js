@@ -1,185 +1,76 @@
-// --- 1. استيراد الخدمات الأساسية ---
+<div class="dropdown">
 
 
-import { auth, db } from "./firebase-init.js";
+  <button class="dropbtn">⚙️ الإعدادات</button>
 
 
-import { 
-    doc, 
-    getDoc, 
-    updateDoc,
-    arrayUnion 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <div class="dropdown-content">
 
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    <a href="#" onclick="openModal('loginModal')">تعديل بيانات الدخول</a>
 
 
-// --- 2. التحقق من حالة تسجيل الدخول وجلب البيانات ---
+    <a href="#" onclick="openModal('salonModal')">معلومات الصالون</a>
 
 
-onAuthStateChanged(auth, async (user) => {
+  </div>
 
 
-    if (user) {
+</div>
 
 
-        await loadSalonData(user.uid);
+<div class="dropdown">
 
 
-    } else {
+  <button class="dropbtn">📊 إدارة العرض</button>
 
 
-        window.location.href = "login.html";
+  <div class="dropdown-content">
 
 
-    }
+    <a href="#" onclick="openModal('servicesModal')">تعديل الخدمات</a>
 
 
-});
+    <a href="#" onclick="openModal('descriptionModal')">تعديل الوصف</a>
 
 
-// --- 3. دالة جلب وعرض بيانات الصالون ---
+  </div>
 
 
-async function loadSalonData(uid) {
+</div>
 
 
-    try {
+<div class="dropdown">
 
 
-        const docRef = doc(db, "salons", uid);
+  <button class="dropbtn">🖼️ معرض الصور</button>
 
 
-        const docSnap = await getDoc(docRef);
+  <div class="dropdown-content">
 
 
-        if (docSnap.exists()) {
+    <a href="#" onclick="triggerUpload('profilePic')">تغيير صورة البروفايل</a>
 
 
-            const data = docSnap.data();
+    <a href="#" onclick="triggerUpload('coverPic')">تغيير صورة الغلاف</a>
 
 
-            const salonNameElement = document.getElementById('display-salon-name');
+    <a href="#" onclick="triggerUpload('galleryPics')">إضافة لصور المعرض</a>
 
 
-            if (salonNameElement) {
+  </div>
 
 
-                salonNameElement.innerText = data.shopName;
+</div>
 
 
-            }
+<button class="logout-btn" onclick="goToHome()">🚪 خروج</button>
 
 
-        }
+<input type="file" id="profilePic" style="display:none" accept="image/*" onchange="handleFileUpload(this, 'profile')">
 
 
-    } catch (error) {
+<input type="file" id="coverPic" style="display:none" accept="image/*" onchange="handleFileUpload(this, 'cover')">
 
 
-        console.error("خطأ في تحميل البيانات:", error);
-
-
-    }
-
-
-}
-
-
-// --- 4. تفعيل أزرار لوحة التحكم (الوظائف الجديدة) ---
-
-
-// دالة تعديل البيانات (الاسم، العنوان، الوصف)
-export async function editSalonData() {
-
-
-    const user = auth.currentUser;
-
-
-    if (!user) return;
-
-
-    const newDescription = prompt("أدخل وصفاً جديداً لأعمال الصالون:");
-
-
-    if (newDescription !== null) {
-
-
-        try {
-
-
-            await updateDoc(doc(db, "salons", user.uid), { 
-                workDescription: newDescription 
-            });
-
-
-            alert("تم تحديث وصف الأعمال بنجاح!");
-
-
-        } catch (error) {
-
-
-            console.error("خطأ في التحديث:", error);
-
-
-        }
-
-
-    }
-
-
-}
-
-
-// دالة إضافة صور للمعرض (بشكل مؤقت عبر روابط حتى نبرمج الرفع الكامل)
-export async function addWorkImages() {
-
-
-    const user = auth.currentUser;
-
-
-    if (!user) return;
-
-
-    const imageUrl = prompt("أدخل رابط صورة لعملك (URL):");
-
-
-    if (imageUrl && imageUrl.trim() !== "") {
-
-
-        try {
-
-
-            await updateDoc(doc(db, "salons", user.uid), {
-
-
-                workImages: arrayUnion(imageUrl)
-
-
-            });
-
-
-            alert("تم إضافة الصورة للمعرض بنجاح!");
-
-
-        } catch (error) {
-
-
-            console.error("خطأ في إضافة الصورة:", error);
-
-
-        }
-
-
-    }
-
-
-}
-
-
-// ربط الأزرار بالوظائف (لأننا نستخدم type="module")
-document.getElementById('btn-edit')?.addEventListener('click', editSalonData);
-
-
-document.getElementById('btn-photos')?.addEventListener('click', addWorkImages);
+<input type="file" id="galleryPics" style="display:none" accept="image/*" multiple onchange="handleFileUpload(this, 'gallery')">

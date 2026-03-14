@@ -85,7 +85,7 @@ async function loadSalons() {
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                             <div>
                                 <h3 style="margin:0;">${data.shopName}</h3>
-                                <p style="color:var(--gray); font-size:0.9rem; margin:5px 0;">📍 ${data.city} - ${data.address}</p>
+                                <p style="color:var(--gray); font-size:0.9rem; margin:5px 0;">🗺️📍 ${data.city} - ${data.address}</p>
                             </div>
                             <button onclick="shareSalon('${data.shopName}', '${data.city}')" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🔗</button>
                         </div>

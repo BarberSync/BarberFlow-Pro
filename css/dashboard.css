@@ -161,3 +161,81 @@
 
 
 }
+
+/* تنسيق الخلفية المعتمة للنافذة */
+
+
+.modal {
+
+
+  display: none;
+
+
+  position: fixed;
+
+
+  z-index: 2000;
+
+
+  left: 0; top: 0;
+
+
+  width: 100%; height: 100%;
+
+
+  background-color: rgba(0,0,0,0.6);
+
+
+}
+
+
+/* تنسيق الصندوق الأبيض داخل النافذة */
+
+
+.modal-content {
+
+
+  background-color: white;
+
+
+  margin: 10% auto;
+
+
+  padding: 20px;
+
+
+  width: 80%;
+
+
+  max-width: 500px;
+
+
+  border-radius: 15px;
+
+
+  position: relative;
+
+
+}
+
+
+/* زر الإغلاق */
+
+
+.close {
+
+
+  position: absolute;
+
+
+  left: 20px; top: 10px;
+
+
+  font-size: 28px;
+
+
+  cursor: pointer;
+
+
+}
+

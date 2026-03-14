@@ -16,12 +16,13 @@
     <title>لوحة التحكم | BarberFlow-Pro</title>
 
 
-    
-<link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="dashboard.css">
+
+
     <style>
 
 
-        /* تنسيق سريع لضمان ظهور العناصر كما في الصورة */
+        /* تنسيق سريع لضمان ظهور العناصر */
 
 
         .profile-card {
@@ -135,19 +136,91 @@
             <h2 id="display-salon-name">اسم الصالون</h2>
 
 
+
+
+
             <div class="btn-group">
 
 
-                <button class="action-btn" id="btn-settings">⚙️ الإعدادات</button>
+                
 
 
-                <button class="action-btn" id="btn-edit">تعديل البيانات</button>
+                <div class="dropdown">
 
 
-                <button class="action-btn" id="btn-photos">تغيير الصور</button>
+                    <button class="action-btn dropbtn">⚙️ الإعدادات</button>
 
 
-                <button class="action-btn" id="btn-logout" style="color: red;">خروج</button>
+                    <div class="dropdown-content">
+
+
+                        <a href="#" onclick="openModal('loginModal')">بيانات الدخول</a>
+
+
+                        <a href="#" onclick="openModal('salonModal')">معلومات الصالون</a>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="dropdown">
+
+
+                    <button class="action-btn dropbtn">📊 إدارة العرض</button>
+
+
+                    <div class="dropdown-content">
+
+
+                        <a href="#" onclick="openModal('servicesModal')">تعديل الخدمات</a>
+
+
+                        <a href="#" onclick="openModal('descriptionModal')">تعديل الوصف</a>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="dropdown">
+
+
+                    <button class="action-btn dropbtn">🖼️ الصور</button>
+
+
+                    <div class="dropdown-content">
+
+
+                        <a href="#" onclick="triggerUpload('profilePic')">صورة البروفايل</a>
+
+
+                        <a href="#" onclick="triggerUpload('galleryPics')">صور المعرض</a>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <button class="action-btn" id="btn-logout" style="color: red;" onclick="goToHome()">🚪 خروج</button>
 
 
             </div>
@@ -156,9 +229,170 @@
         </div>
 
 
-    <script type="module" src="js/events.js"></script>
-<script type="module" src="js/dashboard.js"></script>
+    </div>
 
+
+
+    <input type="file" id="profilePic" style="display:none" accept="image/*" onchange="handleFileUpload(this, 'profile')">
+
+
+    <input type="file" id="galleryPics" style="display:none" accept="image/*" multiple onchange="handleFileUpload(this, 'gallery')">
+
+
+
+    <div id="loginModal" class="modal">
+
+
+        <div class="modal-content">
+
+
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+
+
+            <h2>تعديل بيانات الدخول</h2>
+
+
+            <input type="email" placeholder="الإيميل">
+
+
+            <input type="password" placeholder="كلمة المرور">
+
+
+            <button class="btn btn-gold">حفظ</button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div id="salonModal" class="modal">
+
+
+        <div class="modal-content">
+
+
+            <span class="close" onclick="closeModal('salonModal')">&times;</span>
+
+
+            <h2>معلومات الصالون</h2>
+
+
+            <input type="text" placeholder="اسم الصالون">
+
+
+            <input type="text" placeholder="العنوان">
+
+
+            <button class="btn btn-gold">حفظ</button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div id="servicesModal" class="modal">
+
+
+        <div class="modal-content">
+
+
+            <span class="close" onclick="closeModal('servicesModal')">&times;</span>
+
+
+            <h2>تعديل الخدمات</h2>
+
+
+            <input type="text" placeholder="اسم الخدمة والسعر">
+
+
+            <button class="btn btn-gold">إضافة</button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div id="descriptionModal" class="modal">
+
+
+        <div class="modal-content">
+
+
+            <span class="close" onclick="closeModal('descriptionModal')">&times;</span>
+
+
+            <h2>تعديل الوصف</h2>
+
+
+            <textarea style="width:100%; height:80px; padding:10px; box-sizing:border-box;"></textarea>
+
+
+            <button class="btn btn-gold">حفظ الوصف</button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <script type="module" src="js/events.js"></script>
+
+
+    <script type="module" src="js/dashboard.js"></script>
+
+
+    
+
+
+    <script>
+
+
+        function openModal(id) { document.getElementById(id).style.display = "block"; }
+
+
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+
+        function triggerUpload(id) { document.getElementById(id).click(); }
+
+
+        function goToHome() { window.location.href = "index.html"; }
+
+
+        window.onclick = function(event) {
+
+
+            let modals = document.getElementsByClassName('modal');
+
+
+            for (let i = 0; i < modals.length; i++) {
+
+
+                if (event.target == modals[i]) modals[i].style.display = "none";
+
+
+            }
+
+
+        }
+
+
+    </script>
 
 
 </body>

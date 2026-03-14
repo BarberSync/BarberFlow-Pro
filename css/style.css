@@ -142,3 +142,62 @@ select {
     opacity: 0.8; 
     text-decoration: none;
 }
+.search-container {
+
+
+  margin: 20px auto;
+
+
+  max-width: 600px;
+
+
+  padding: 0 15px;
+
+
+}
+
+
+#salonSearch {
+
+
+  width: 100%;
+
+
+  padding: 16px;
+
+
+  border-radius: 25px;
+
+
+  border: 2px solid #ddd;
+
+
+  font-size: 16px;
+
+
+  box-sizing: border-box; /* لضمان عدم خروج الحقل عن الإطار */
+
+
+  transition: 0.3s;
+
+
+  text-align: center;
+
+
+}
+
+
+#salonSearch:focus {
+
+
+  border-color: #d4af37; /* لون ذهبي عند التحديد */
+
+
+  outline: none;
+
+
+  box-shadow: 0 0 10px rgba(212,175,55,0.2);
+
+
+}
+

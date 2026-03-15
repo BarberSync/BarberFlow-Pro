@@ -1,4 +1,8 @@
+ //ملف يجعل من الازرار تسمع الاوامر وتنفذها
 
+
+
+ 
 
 // js/events.js
 
@@ -6,7 +10,7 @@
 import { logout } from "./modules/auth.js";
 
 
-// دالة لفتح النوافذ المنبثقة نضعها في نطاق النافذة ليراها الـ HTML
+// ربط الدوال بنطاق النافذة العام ليراها الـ HTML
 
 
 window.openModal = (id) => {
@@ -15,13 +19,16 @@ window.openModal = (id) => {
     const modal = document.getElementById(id);
 
 
-    if (modal) modal.style.display = "block";
+    if (modal) {
+
+
+        modal.style.display = "block";
+
+
+    }
 
 
 };
-
-
-// دالة لإغلاق النوافذ المنبثقة
 
 
 window.closeModal = (id) => {
@@ -30,7 +37,13 @@ window.closeModal = (id) => {
     const modal = document.getElementById(id);
 
 
-    if (modal) modal.style.display = "none";
+    if (modal) {
+
+
+        modal.style.display = "none";
+
+
+    }
 
 
 };
@@ -39,7 +52,25 @@ window.closeModal = (id) => {
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // ربط زر تسجيل الخروج
+    // إغلاق النوافذ عند النقر خارج المحتوى
+
+
+    window.addEventListener('click', (event) => {
+
+
+        if (event.target.classList.contains('modal')) {
+
+
+            event.target.style.display = "none";
+
+
+        }
+
+
+    });
+
+
+    // ربط زر تسجيل الخروج برمجياً
 
 
     const logoutBtn = document.querySelector('.logout-btn');
@@ -58,24 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     }
-
-
-    // إغلاق النوافذ عند النقر خارجها
-
-
-    window.addEventListener('click', (event) => {
-
-
-        if (event.target.classList.contains('modal')) {
-
-
-            event.target.style.display = "none";
-
-
-        }
-
-
-    });
 
 
 });

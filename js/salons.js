@@ -1,4 +1,7 @@
-import { db, collection, getDocs } from "./firebase-init.js";
+منطق جلب الصالونات المسجلة وعرضها داخل ملف العرض 
+
+import { auth, db } from './modules/firebase-init.js';
+
 
 
 const salonsList = document.getElementById('salonsList');

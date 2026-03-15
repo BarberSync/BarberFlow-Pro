@@ -2,7 +2,6 @@
 
 
 
- 
 
 // js/events.js
 
@@ -10,7 +9,13 @@
 import { logout } from "./modules/auth.js";
 
 
-// ربط الدوال بنطاق النافذة العام ليراها الـ HTML
+/**
+
+
+ * جعل الدوال متاحة عالمياً (window) لتعمل مع onclick الموجود في HTML
+
+
+ */
 
 
 window.openModal = (id) => {
@@ -49,48 +54,39 @@ window.closeModal = (id) => {
 };
 
 
-document.addEventListener('DOMContentLoaded', () => {
+// دالة الخروج التي طلبتها في HTML باسم goToHome
 
 
-    // إغلاق النوافذ عند النقر خارج المحتوى
+window.goToHome = () => {
 
 
-    window.addEventListener('click', (event) => {
+    logout();
 
 
-        if (event.target.classList.contains('modal')) {
+};
 
 
-            event.target.style.display = "none";
+/**
 
 
-        }
+ * معالجة إغلاق النوافذ عند النقر خارجها
 
 
-    });
+ */
 
 
-    // ربط زر تسجيل الخروج برمجياً
+window.onclick = (event) => {
 
 
-    const logoutBtn = document.querySelector('.logout-btn');
+    if (event.target.classList.contains('modal')) {
 
 
-    if (logoutBtn) {
-
-
-        logoutBtn.addEventListener('click', () => {
-
-
-            logout();
-
-
-        });
+        event.target.style.display = "none";
 
 
     }
 
 
-});
+};
 
 

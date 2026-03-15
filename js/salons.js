@@ -1,6 +1,4 @@
-منطق جلب الصالونات المسجلة وعرضها داخل ملف 
-
-import { db } from './modules/firebase-init.js';
+import { db, collection, getDocs } from "./firebase-init.js";
 
 
 const salonsList = document.getElementById('salonsList');

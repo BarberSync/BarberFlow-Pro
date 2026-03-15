@@ -1,5 +1,4 @@
- //ملف يجعل من الازرار تسمع الاوامر وتنفذها
-
+//ملف يجعل الازرار تتبع الاوامر 
 
 
 
@@ -12,7 +11,7 @@ import { logout } from "./modules/auth.js";
 /**
 
 
- * جعل الدوال متاحة عالمياً (window) لتعمل مع onclick الموجود في HTML
+ * الدوال العامة لفتح وإغلاق النوافذ (لتعمل مع أي عنصر مستقبلي)
 
 
  */
@@ -54,39 +53,108 @@ window.closeModal = (id) => {
 };
 
 
-// دالة الخروج التي طلبتها في HTML باسم goToHome
-
-
-window.goToHome = () => {
-
-
-    logout();
-
-
-};
-
-
 /**
 
 
- * معالجة إغلاق النوافذ عند النقر خارجها
+ * ربط الأزرار الموجودة في dashboard.html برمجياً
 
 
  */
 
 
-window.onclick = (event) => {
+document.addEventListener('DOMContentLoaded', () => {
 
 
-    if (event.target.classList.contains('modal')) {
+    // 1. زر الإعدادات -> يفتح نافذة معلومات الصالون
 
 
-        event.target.style.display = "none";
+    const btnSettings = document.getElementById('btn-settings');
+
+
+    if (btnSettings) {
+
+
+        btnSettings.addEventListener('click', () => openModal('salonModal'));
 
 
     }
 
 
-};
+    // 2. زر تعديل البيانات -> يفتح نافذة بيانات الدخول
+
+
+    const btnEdit = document.getElementById('btn-edit');
+
+
+    if (btnEdit) {
+
+
+        btnEdit.addEventListener('click', () => openModal('loginModal'));
+
+
+    }
+
+
+    // 3. زر تغيير الصور -> يفتح نافذة الصور (أو يمكنك ربطه بنافذة محددة)
+
+
+    const btnPhotos = document.getElementById('btn-photos');
+
+
+    if (btnPhotos) {
+
+
+        btnPhotos.addEventListener('click', () => alert("سيتم تفعيل معرض الصور قريباً"));
+
+
+    }
+
+
+    // 4. زر الخروج -> ينفذ عملية تسجيل الخروج
+
+
+    const btnLogout = document.getElementById('btn-logout');
+
+
+    if (btnLogout) {
+
+
+        btnLogout.addEventListener('click', () => {
+
+
+            if(confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+
+
+                logout();
+
+
+            }
+
+
+        });
+
+
+    }
+
+
+    // إغلاق النوافذ عند النقر خارج الإطار الأبيض
+
+
+    window.onclick = (event) => {
+
+
+        if (event.target.classList.contains('modal')) {
+
+
+            event.target.style.display = "none";
+
+
+        }
+
+
+    };
+
+
+});
 
 

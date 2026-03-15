@@ -4,13 +4,13 @@ import { auth, db, storage } from './modules/firebase-init.js';
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 
-// --- منطق التحكم بالنوافذ (بدلاً من events.js) ---
+// --- دالة التحكم بفتح وإغلاق النوافذ ---
 
 
 const openModal = (id) => {
@@ -37,10 +37,13 @@ const closeModal = (id) => {
 };
 
 
-// --- ربط الأزرار ---
+// --- تهيئة الأحداث بعد تحميل الصفحة ---
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+
+    // ربط أزرار فتح النوافذ
 
 
     const btnSettings = document.getElementById('btn-settings');
@@ -55,7 +58,52 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnEdit) btnEdit.addEventListener('click', () => openModal('loginModal'));
 
 
-    // إغلاق النافذة عند النقر خارج المحتوى
+    // ربط أزرار إغلاق النوافذ
+
+
+    const closeSalon = document.getElementById('closeSalonModal');
+
+
+    if (closeSalon) closeSalon.addEventListener('click', () => closeModal('salonModal'));
+
+
+    const closeLogin = document.getElementById('closeLoginModal');
+
+
+    if (closeLogin) closeLogin.addEventListener('click', () => closeModal('loginModal'));
+
+
+    // ربط زر تسجيل الخروج
+
+
+    const btnLogout = document.getElementById('btn-logout');
+
+
+    if (btnLogout) {
+
+
+        btnLogout.addEventListener('click', async () => {
+
+
+            if (confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+
+
+                await signOut(auth);
+
+
+                window.location.href = "index.html";
+
+
+            }
+
+
+        });
+
+
+    }
+
+
+    // إغلاق النوافذ عند النقر خارج المحتوى
 
 
     window.onclick = (event) => {
@@ -76,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- جلب بيانات المستخدم ---
+// --- جلب بيانات المستخدم وعرضها ---
 
 
 onAuthStateChanged(auth, async (user) => {

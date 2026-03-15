@@ -1,7 +1,7 @@
 // استيراد الدوال الوظيفية المشتركة فقط
 
 
-import { logout } from "./auth.js";
+import { logout } from "./modules/auth.js";
 
 
 import { editSalonName } from "./dashboard.js";

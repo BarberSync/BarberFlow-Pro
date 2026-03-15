@@ -159,3 +159,30 @@ export function filterSalons(searchText) {
     salons[i].style.display = text.includes(searchText.toLowerCase()) ? "" : "none";
   }
 }
+
+// --- دالة البحث ---
+
+
+window.searchSalons = function() {
+
+
+    let input = document.getElementById('salonSearch').value.toLowerCase();
+
+
+    let salons = document.getElementsByClassName('salon-card');
+
+
+    for (let i = 0; i < salons.length; i++) {
+
+
+        let text = salons[i].textContent.toLowerCase();
+
+
+        salons[i].style.display = text.includes(input) ? "" : "none";
+
+
+    }
+
+
+};
+

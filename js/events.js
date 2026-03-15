@@ -1,22 +1,48 @@
-// استيراد الدوال الوظيفية المشتركة فقط
+
+
+// js/events.js
 
 
 import { logout } from "./modules/auth.js";
 
 
-import { editSalonName } from "./dashboard.js";
+// دالة لفتح النوافذ المنبثقة نضعها في نطاق النافذة ليراها الـ HTML
 
 
-// هذا المنسق يضمن عدم تنفيذ أي كود إلا إذا وُجد العنصر فعلياً في الصفحة الحالية
+window.openModal = (id) => {
+
+
+    const modal = document.getElementById(id);
+
+
+    if (modal) modal.style.display = "block";
+
+
+};
+
+
+// دالة لإغلاق النوافذ المنبثقة
+
+
+window.closeModal = (id) => {
+
+
+    const modal = document.getElementById(id);
+
+
+    if (modal) modal.style.display = "none";
+
+
+};
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // --- 1. التعامل مع زر الخروج (متاح في لوحة التحكم) ---
+    // ربط زر تسجيل الخروج
 
 
-    const logoutBtn = document.getElementById('btn-logout');
+    const logoutBtn = document.querySelector('.logout-btn');
 
 
     if (logoutBtn) {
@@ -25,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', () => {
 
 
-            logout(); 
+            logout();
 
 
         });
@@ -34,33 +60,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 2. التعامل مع زر تعديل البيانات (متاح في لوحة التحكم) ---
+    // إغلاق النوافذ عند النقر خارجها
 
 
-    const btnEdit = document.getElementById('btn-edit');
+    window.addEventListener('click', (event) => {
 
 
-    if (btnEdit) {
+        if (event.target.classList.contains('modal')) {
 
 
-        btnEdit.addEventListener('click', () => {
+            event.target.style.display = "none";
 
 
-            editSalonName(); 
+        }
 
 
-        });
-
-
-    }
+    });
 
 
 });
 
 
-import { filterSalons } from './salons.js';
-
-// نربط حقل البحث هنا
-document.getElementById('salonSearch').addEventListener('keyup', (e) => {
-  filterSalons(e.target.value);
-});

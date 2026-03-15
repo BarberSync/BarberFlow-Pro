@@ -1,10 +1,10 @@
-منطق جلب الصالونات المسجلة وعرضها داخل ملف العرض 
+منطق جلب الصالونات المسجلة وعرضها داخل ملف 
 
-import { auth, db } from './modules/firebase-init.js';
+import { db } from './modules/firebase-init.js';
 
 
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const salonsList = document.getElementById('salonsList');
 
 
 window.shareSalon = async (name, city) => {

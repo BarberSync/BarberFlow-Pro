@@ -56,3 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+
+import { filterSalons } from './salons.js';
+
+// نربط حقل البحث هنا
+document.getElementById('salonSearch').addEventListener('keyup', (e) => {
+  filterSalons(e.target.value);
+});

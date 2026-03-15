@@ -1,7 +1,7 @@
 // استيراد التهيئة الموحدة لقاعدة البيانات والمصادقة
 
 
-import { auth, db } from './firebase-init.js';
+import { auth, db } from './modules/firebase-init.js';
 
 
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";

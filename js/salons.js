@@ -147,3 +147,12 @@ async function loadSalons() {
 
 
 loadSalons();
+
+// نقوم بتصدير الدالة لتكون متاحة لبقية الملفات
+export function filterSalons(searchText) {
+  let salons = document.getElementsByClassName('salon-card');
+  for (let i = 0; i < salons.length; i++) {
+    let text = salons[i].textContent.toLowerCase();
+    salons[i].style.display = text.includes(searchText.toLowerCase()) ? "" : "none";
+  }
+}

@@ -1,5 +1,17 @@
 منطق جلب الصالونات المسجلة وعرضها داخل ملف 
 
+async function loadSalons() {
+    // أضف هذا السطر فقط في بداية الدالة:
+    const salonsList = document.getElementById('salonsList');
+
+
+    try {
+        // باقي كودك الأصلي كما هو دون أي تغيير:
+        const querySnapshot = await getDocs(collection(db, "salons"));
+        
+        // ... (تكملة الكود الخاص بك)
+
+
 import { db } from './modules/firebase-init.js';
 
 

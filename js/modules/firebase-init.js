@@ -1,6 +1,4 @@
-//ملف ربط موقع barberflow-pro مع قاعدة بيانات firebase
-
-
+// ملف ربط موقع barberflow-pro مع قاعدة بيانات firebase
 
 
 // js/modules/firebase-init.js
@@ -9,13 +7,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 
-import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, arrayUnion, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 
 const firebaseConfig = {
@@ -54,6 +52,7 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 
-export { auth, db, storage, collection, getDocs, doc, setDoc, updateDoc };
+// إضافة التصدير لتصبح الخدمات متاحة في بقية الملفات
 
 
+export { db, auth, storage };

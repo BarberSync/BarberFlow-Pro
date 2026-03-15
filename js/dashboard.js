@@ -1,3 +1,10 @@
+ملف لتعديل محتوى بطاقات الصلونات المسجلة
+
+
+import { auth, db } from './modules/firebase-init.js';
+
+
+
 <div class="dropdown">
 
 

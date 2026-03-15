@@ -1,7 +1,6 @@
 // استيراد الخدمات الأساسية والمصادقة
 
-
-import { auth } from './firebase-init.js';
+import { auth, db } from './modules/firebase-init.js';
 
 
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";

@@ -1,18 +1,22 @@
-// استيراد الخدمات الأساسية والمصادقة
+// js/login.js
 
-import { auth, db } from './modules/firebase-init.js';
+
+/* --- 1. استيراد الخدمات الأساسية من ملف التهيئة --- */
+
+
+import { auth } from './modules/firebase-init.js';
 
 
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// الحصول على عنصر النموذج من الصفحة
+/* --- 2. الحصول على عنصر نموذج تسجيل الدخول --- */
 
 
 const loginForm = document.getElementById('loginForm');
 
 
-// التحقق من وجود النموذج قبل إضافة مستمع الحدث لمنع أي تداخل
+/* --- 3. التحقق من وجود النموذج قبل إضافة الحدث --- */
 
 
 if (loginForm) {
@@ -21,10 +25,13 @@ if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
 
 
+        /* --- 4. منع السلوك الافتراضي لإعادة تحميل الصفحة --- */
+
+
         e.preventDefault();
 
 
-        // الحصول على قيم المدخلات
+        /* --- 5. استخراج البيانات من حقول الإدخال --- */
 
 
         const email = document.getElementById('loginEmail').value;
@@ -36,19 +43,22 @@ if (loginForm) {
         try {
 
 
-            // تنفيذ عملية تسجيل الدخول
+            /* --- 6. محاولة تسجيل الدخول عبر Firebase Auth --- */
 
 
             await signInWithEmailAndPassword(auth, email, password);
 
 
-            // التوجيه إلى لوحة التحكم عند النجاح
+            /* --- 7. التوجيه إلى لوحة التحكم عند النجاح --- */
 
 
             window.location.href = "dashboard.html";
 
 
         } catch (error) {
+
+
+            /* --- 8. معالجة أخطاء تسجيل الدخول وعرض تنبيه --- */
 
 
             console.error("خطأ في تسجيل الدخول:", error.message);

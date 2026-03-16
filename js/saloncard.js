@@ -7,7 +7,19 @@
 export function createSalonCard(data) {
 
 
-    /* --- 2. إرجاع قالب الـ HTML للبطاقة باستخدام Template Literals --- */
+    const shopName = data.shopName || 'صالون غير مسمى';
+
+
+    const address = data.address || 'العنوان غير متوفر';
+
+
+    const ownerName = data.ownerName || 'غير متوفر';
+
+
+    const phone = data.phone ? `https://wa.me/${data.phone.replace(/[^0-9]/g, '')}` : '#';
+
+
+    /* --- 2. إرجاع قالب الـ HTML للبطاقة مع تحسين عرض البيانات --- */
 
 
     return `
@@ -16,37 +28,22 @@ export function createSalonCard(data) {
         <div class="salon-card">
 
 
-            
-
-
             <div class="salon-info">
 
 
-                
+                <h3>${shopName}</h3>
 
 
-                <h3>${data.shopName || 'اسم الصالون غير متوفر'}</h3>
+                <p>📍 ${address}</p>
 
 
-                
-
-
-                <p>📍 ${data.address || 'العنوان غير متوفر'}</p>
-
-
-                
-
-
-                <p>👤 الحلاق: ${data.ownerName || 'غير متوفر'}</p>
-
-
-                
+                <p>👤 الحلاق: ${ownerName}</p>
 
 
                 <div class="actions">
 
 
-                    <a href="https://wa.me/${data.phone}" class="btn btn-gold">
+                    <a href="${phone}" class="btn btn-gold" target="_blank" rel="noopener noreferrer">
 
 
                         💬 تواصل عبر واتساب

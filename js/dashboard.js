@@ -1,3 +1,9 @@
+// js/dashboard.js
+
+
+/* --- 1. استيراد المكتبات والخدمات اللازمة من Firebase --- */
+
+
 import { auth, db, storage } from './modules/firebase-init.js';
 
 
@@ -10,7 +16,7 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 
-// --- دالة التحكم بفتح وإغلاق النوافذ ---
+/* --- 2. وظائف التحكم في النوافذ المنبثقة (Modals) --- */
 
 
 const openModal = (id) => {
@@ -37,13 +43,13 @@ const closeModal = (id) => {
 };
 
 
-// --- تهيئة الأحداث بعد تحميل الصفحة ---
+/* --- 3. تهيئة الأحداث بمجرد تحميل مستند الصفحة --- */
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // ربط أزرار فتح النوافذ
+    /* --- 4. ربط أزرار فتح النوافذ المنبثقة --- */
 
 
     const btnSettings = document.getElementById('btn-settings');
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnEdit) btnEdit.addEventListener('click', () => openModal('loginModal'));
 
 
-    // ربط أزرار إغلاق النوافذ
+    /* --- 5. ربط أزرار إغلاق النوافذ المنبثقة --- */
 
 
     const closeSalon = document.getElementById('closeSalonModal');
@@ -73,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeLogin) closeLogin.addEventListener('click', () => closeModal('loginModal'));
 
 
-    // ربط زر تسجيل الخروج
+    /* --- 6. منطق تسجيل الخروج مع التأكيد --- */
 
 
     const btnLogout = document.getElementById('btn-logout');
@@ -103,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // إغلاق النوافذ عند النقر خارج المحتوى
+    /* --- 7. إغلاق النافذة عند النقر في أي مكان خارجها --- */
 
 
     window.onclick = (event) => {
@@ -124,13 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- جلب بيانات المستخدم وعرضها ---
+/* --- 8. مراقبة حالة المستخدم وجلب بيانات الصالون --- */
 
 
 onAuthStateChanged(auth, async (user) => {
 
 
     if (user) {
+
+
+        /* --- 9. جلب وثيقة الصالون من Firestore باستخدام UID --- */
 
 
         const docRef = doc(db, "salons", user.uid);
@@ -145,13 +154,25 @@ onAuthStateChanged(auth, async (user) => {
             const data = docSnap.data();
 
 
-            if (document.getElementById('displayShopName')) document.getElementById('displayShopName').innerText = data.shopName;
+            /* --- 10. عرض اسم الصالون في واجهة المستخدم --- */
+
+
+            if (document.getElementById('displayShopName')) {
+
+
+                document.getElementById('displayShopName').innerText = data.shopName;
+
+
+            }
 
 
         }
 
 
     } else {
+
+
+        /* --- 11. إعادة التوجيه لصفحة الدخول إذا لم يكن المستخدم مسجلاً --- */
 
 
         window.location.href = "login.html";

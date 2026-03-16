@@ -1,203 +1,169 @@
-/* --- 1. الإعدادات الأساسية (Variables & Global) --- */
+/* --- 1. المتغيرات العامة (Variables) --- */
+
+
 :root {
+
+
     --primary: #1a1a1a;
+
+
     --gold: #d4af37;
+
+
     --bg-light: #f8f9fa;
+
+
     --wa-green: #25D366;
+
+
     --white: #ffffff;
+
+
     --gray: #333;
+
+
     --error-red: #ff4d4d;
+
+
 }
 
 
-body { 
-    font-family: 'Cairo', sans-serif; 
-    margin: 0; 
-    background: var(--bg-light); 
-    color: var(--primary); 
-    direction: rtl; 
-}
+/* --- 2. الإعدادات الأساسية للجسم (Body Styles) --- */
 
 
-/* --- 2. الملاحة (Navigation) --- */
-nav { 
-    background: var(--primary); 
-    padding: 15px 20px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-    position: sticky; 
-    top: 0; 
-    z-index: 1000; 
-}
+body {
 
 
-nav a { 
-    text-decoration: none; 
-    color: var(--gold); 
-    font-weight: bold; 
-}
-
-
-/* --- 3. الأزرار العامة (Buttons) --- */
-.btn { 
-    padding: 15px; 
-    border-radius: 12px; 
-    text-decoration: none; 
-    font-weight: bold; 
-    text-align: center; 
-    transition: 0.3s; 
-    cursor: pointer; 
-    border: none; 
     font-family: 'Cairo', sans-serif;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
+
+
+    margin: 0;
+
+
+    background: var(--bg-light);
+
+
+    color: var(--primary);
+
+
+    direction: rtl;
+
+
 }
 
 
-.btn-gold { 
-    background: var(--gold); 
-    color: var(--primary); 
+/* --- 3. تنسيق شريط التنقل (Navigation) --- */
+
+
+nav {
+
+
+    background: var(--primary);
+
+
+    padding: 15px 20px;
+
+
+    display: flex;
+
+
+    justify-content: space-between;
+
+
+    align-items: center;
+
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+
+    position: sticky;
+
+
+    top: 0;
+
+
+    z-index: 1000;
+
+
 }
 
 
-.btn-outline { 
-    border: 2px solid var(--gold); 
-    color: var(--gold); 
-    background: transparent; 
-}
+/* --- 4. تنسيق الروابط داخل التنقل --- */
 
 
-/* --- 4. النماذج والتحقق (Forms & Validation) --- */
-.container { 
-    width: 100%; 
-    max-width: 500px; 
-    margin: auto; 
-    padding: 20px; 
-    box-sizing: border-box; 
-}
+nav a {
 
 
-input[type="email"], 
-input[type="password"], 
-input[type="text"], 
-input[type="tel"], 
-select {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    font-family: 'Cairo', sans-serif;
-    display: block;
-}
-
-
-.error-field {
-    border: 2px solid var(--error-red) !important;
-    background-color: #fff2f2;
-}
-
-
-/* --- 5. الصفحة الرئيسية (Hero Section) --- */
-.hero { 
-    min-height: 100vh; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
-    text-align: center; 
-    padding: 20px; 
-    box-sizing: border-box;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1350&q=80');
-    background-size: cover; 
-    background-position: center; 
-    color: white;
-}
-
-
-.hero h1 { 
-    color: var(--gold); 
-    font-size: 2.5rem; 
-    margin-bottom: 10px; 
-}
-
-
-.main-buttons { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 15px; 
-    width: 100%; 
-    max-width: 350px; 
-}
-
-
-.dashboard-link { 
-    display: block; 
-    margin-top: 40px; 
-    color: white; 
-    opacity: 0.8; 
     text-decoration: none;
-}
-.search-container {
 
 
-  margin: 20px auto;
+    color: var(--gold);
 
 
-  max-width: 600px;
-
-
-  padding: 0 15px;
+    font-weight: bold;
 
 
 }
 
 
-#salonSearch {
+/* --- 5. تنسيق الأزرار (Buttons) --- */
 
 
-  width: 100%;
+.btn {
 
 
-  padding: 16px;
+    padding: 15px;
 
 
-  border-radius: 25px;
+    border-radius: 12px;
 
 
-  border: 2px solid #ddd;
+    text-decoration: none;
 
 
-  font-size: 16px;
+    font-weight: bold;
 
 
-  box-sizing: border-box; /* لضمان عدم خروج الحقل عن الإطار */
+    display: block;
 
 
-  transition: 0.3s;
+    text-align: center;
 
 
-  text-align: center;
+    border: none;
+
+
+    cursor: pointer;
+
+
+}
+
+
+/* --- 6. تنسيق الزر الذهبي --- */
+
+
+.btn-gold {
+
+
+    background: var(--gold);
+
+
+    color: var(--white);
 
 
 }
 
 
-#salonSearch:focus {
+/* --- 7. تنسيق الزر المفرغ --- */
 
 
-  border-color: #d4af37; /* لون ذهبي عند التحديد */
+.btn-outline {
 
 
-  outline: none;
+    border: 2px solid var(--gold);
 
 
-  box-shadow: 0 0 10px rgba(212,175,55,0.2);
+    color: var(--gold);
 
 
 }
-

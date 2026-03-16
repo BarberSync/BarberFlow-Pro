@@ -1,7 +1,11 @@
+// js/salons.js
+
+
+// تصحيح مسار الاستيراد ليتوافق مع هيكلة ملفاتك
 import { db } from './firebase-init.js';
 
 
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 import { createSalonCard } from './saloncard.js';
@@ -20,8 +24,6 @@ async function loadSalons() {
 
 
         // جلب بيانات الصالونات من قاعدة البيانات
-
-
         const querySnapshot = await getDocs(collection(db, "salons"));
 
 
@@ -41,18 +43,20 @@ async function loadSalons() {
 
 
         // عرض الصالونات في الصفحة
-
-
         querySnapshot.forEach((doc) => {
 
 
             const salonData = doc.data();
 
 
-            const salonElement = createSalonCard(salonData);
+            // إنشاء البطاقة وإضافتها
+            const salonElement = document.createElement('div');
 
 
-            salonsList.appendChild(salonElement);
+            salonElement.innerHTML = createSalonCard(salonData);
+
+
+            salonsList.appendChild(salonElement.firstElementChild);
 
 
         });
@@ -64,7 +68,7 @@ async function loadSalons() {
         console.error("خطأ في جلب الصالونات: ", error);
 
 
-        salonsList.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء تحميل الصالونات. حاول لاحقاً.</p>';
+        salonsList.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء تحميل الصالونات.</p>';
 
 
     }
@@ -74,6 +78,4 @@ async function loadSalons() {
 
 
 // تنفيذ الدالة عند تحميل الصفحة
-
-
 document.addEventListener('DOMContentLoaded', loadSalons);

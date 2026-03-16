@@ -1,55 +1,37 @@
-// js/salons.js
+import { db } from './firebase-init.js';
 
 
-/* --- 1. استيراد الخدمات المطلوبة من Firebase --- */
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 
-import { db } from './modules/firebase-init.js';
-
-
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-
-import { createSalonCard } from './salonCard.js';
-
-
-/* --- 2. دالة جلب وعرض قائمة الصالونات من قاعدة البيانات --- */
+import { createSalonCard } from './saloncard.js';
 
 
 async function loadSalons() {
 
 
+    const salonsList = document.getElementById('salonsList');
+
+
+    if (!salonsList) return;
+
+
     try {
 
 
-        /* --- 3. جلب الوثائق من مجموعة الصالونات (Salons Collection) --- */
+        // جلب بيانات الصالونات من قاعدة البيانات
 
 
         const querySnapshot = await getDocs(collection(db, "salons"));
 
 
-        const salonsList = document.getElementById('salonsList');
-
-
-        
-
-
-        /* --- 4. تنظيف القائمة قبل العرض --- */
-
-
-        salonsList.innerHTML = ""; 
-
-
-        
-
-
-        /* --- 5. التحقق من وجود بيانات --- */
+        salonsList.innerHTML = '';
 
 
         if (querySnapshot.empty) {
 
 
-            salonsList.innerHTML = "<p style='text-align:center;'>لا يوجد صالونات مسجلة حالياً.</p>";
+            salonsList.innerHTML = '<p style="text-align: center;">لا توجد صالونات مسجلة حالياً.</p>';
 
 
             return;
@@ -58,25 +40,19 @@ async function loadSalons() {
         }
 
 
-        
-
-
-        /* --- 6. تكرار البيانات وإضافتها للقائمة --- */
+        // عرض الصالونات في الصفحة
 
 
         querySnapshot.forEach((doc) => {
 
 
-            const data = doc.data();
+            const salonData = doc.data();
 
 
-            
+            const salonElement = createSalonCard(salonData);
 
 
-            /* --- استخدام المكون المنفصل لعرض البطاقة --- */
-
-
-            salonsList.innerHTML += createSalonCard(data);
+            salonsList.appendChild(salonElement);
 
 
         });
@@ -85,13 +61,10 @@ async function loadSalons() {
     } catch (error) {
 
 
-        /* --- 7. معالجة الأخطاء أثناء الاتصال بقاعدة البيانات --- */
+        console.error("خطأ في جلب الصالونات: ", error);
 
 
-        console.error("Error loading salons:", error);
-
-
-        document.getElementById('salonsList').innerHTML = "<p style='text-align:center;'>حدث خطأ أثناء تحميل البيانات.</p>";
+        salonsList.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء تحميل الصالونات. حاول لاحقاً.</p>';
 
 
     }
@@ -100,7 +73,7 @@ async function loadSalons() {
 }
 
 
-/* --- 8. استدعاء الدالة لبدء عملية التحميل --- */
+// تنفيذ الدالة عند تحميل الصفحة
 
 
-loadSalons();
+document.addEventListener('DOMContentLoaded', loadSalons);

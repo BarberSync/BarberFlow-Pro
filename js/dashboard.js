@@ -7,6 +7,9 @@
 import { auth, db } from './modules/firebase-init.js';
 
 
+import { showLoader, hideLoader } from './main.js'; // استيراد دوال الـ Loader
+
+
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
@@ -32,6 +35,9 @@ const toggleModal = (id, display) => {
 
 
 const loadSalonData = async (uid) => {
+
+
+    showLoader(); // إظهار الـ Loader عند بدء جلب البيانات
 
 
     try {
@@ -68,6 +74,12 @@ const loadSalonData = async (uid) => {
 
 
         console.error("خطأ في جلب البيانات:", error);
+
+
+    } finally {
+
+
+        hideLoader(); // إخفاء الـ Loader فور انتهاء العملية (سواء نجحت أو فشلت)
 
 
     }

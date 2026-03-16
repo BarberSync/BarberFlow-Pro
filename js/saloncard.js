@@ -1,25 +1,43 @@
 // js/salonCard.js
 
 
-/* --- 1. دالة إنشاء هيكلية بطاقة الصالون (Component) --- */
+/* --- دالة إنشاء بطاقة الصالون - الهيكل المحدث --- */
 
 
 export function createSalonCard(data) {
 
 
-    const shopName = data.shopName || 'صالون غير مسمى';
+    /* --- 1. البيانات الإجبارية (موجودة دائماً) --- */
 
 
-    const address = data.address || 'العنوان غير متوفر';
+    const shopName = data.shopName;
 
 
-    const ownerName = data.ownerName || 'غير متوفر';
+    const address = data.address;
 
 
-    const phone = data.phone ? `https://wa.me/${data.phone.replace(/[^0-9]/g, '')}` : '#';
+    const ownerName = data.ownerName;
 
 
-    /* --- 2. إرجاع قالب الـ HTML للبطاقة متوافقاً مع card.css --- */
+    const phoneLink = `https://wa.me/${data.phone.replace(/[^0-9]/g, '')}`;
+
+
+    /* --- 2. البيانات الاختيارية (تظهر فقط إذا توفرت) --- */
+
+
+    const headerImg = data.headerImage || 'images/default-header.png';
+
+
+    const profileImg = data.profilePic || 'images/default-avatar.png';
+
+
+    const description = data.description ? `<div class="salon-description"><p>${data.description}</p></div>` : '';
+
+
+    const services = data.services ? `<div class="salon-services"><p>الخدمات: ${data.services}</p></div>` : '';
+
+
+    /* --- 3. بناء هيكل البطاقة HTML --- */
 
 
     return `
@@ -28,10 +46,10 @@ export function createSalonCard(data) {
         <div class="salon-card">
 
 
-            <div class="profile-header" style="background-image: url('images/default-salon.jpg');">
+            <div class="profile-header" style="background-image: url('${headerImg}');">
 
 
-                <img src="images/default-avatar.png" class="profile-pic" alt="صورة الصالون">
+                <img src="${profileImg}" class="profile-pic" alt="صورة الصالون">
 
 
             </div>
@@ -49,25 +67,25 @@ export function createSalonCard(data) {
                 <p>👤 الحلاق: ${ownerName}</p>
 
 
-                <div class="salon-description">
+                ${description}
 
 
-                    <p>صالون احترافي يقدم أفضل خدمات الحلاقة والعناية بالشعر.</p>
+                ${services}
 
 
-                </div>
+                <div class="actions">
 
 
-                <div class="actions" style="margin-top: 15px;">
+                    <a href="${phoneLink}" class="btn btn-gold" target="_blank">💬 واتساب</a>
 
 
-                    <a href="${phone}" class="btn btn-gold" target="_blank" rel="noopener noreferrer">
+                    <button class="btn btn-outline" onclick="alert('قريباً: نظام الحجز المباشر')">📅 احجز الآن</button>
 
 
-                        💬 تواصل عبر واتساب
+                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}" 
 
 
-                    </a>
+                       class="btn btn-outline" target="_blank">📍 الخريطة</a>
 
 
                 </div>

@@ -1,7 +1,7 @@
 // js/salons.js
 
+import { db } from './modules/firebase-init.js';
 
-import { db } from './firebase-init.js';
 
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";

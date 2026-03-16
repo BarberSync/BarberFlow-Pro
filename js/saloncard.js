@@ -19,13 +19,22 @@ export function createSalonCard(data) {
     const phone = data.phone ? `https://wa.me/${data.phone.replace(/[^0-9]/g, '')}` : '#';
 
 
-    /* --- 2. إرجاع قالب الـ HTML للبطاقة مع تحسين عرض البيانات --- */
+    /* --- 2. إرجاع قالب الـ HTML للبطاقة متوافقاً مع card.css --- */
 
 
     return `
 
 
         <div class="salon-card">
+
+
+            <div class="profile-header" style="background-image: url('images/default-salon.jpg');">
+
+
+                <img src="images/default-avatar.png" class="profile-pic" alt="صورة الصالون">
+
+
+            </div>
 
 
             <div class="salon-info">
@@ -40,7 +49,16 @@ export function createSalonCard(data) {
                 <p>👤 الحلاق: ${ownerName}</p>
 
 
-                <div class="actions">
+                <div class="salon-description">
+
+
+                    <p>صالون احترافي يقدم أفضل خدمات الحلاقة والعناية بالشعر.</p>
+
+
+                </div>
+
+
+                <div class="actions" style="margin-top: 15px;">
 
 
                     <a href="${phone}" class="btn btn-gold" target="_blank" rel="noopener noreferrer">

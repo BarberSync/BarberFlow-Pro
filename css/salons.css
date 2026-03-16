@@ -13,6 +13,8 @@
 }
 
 
+
+
 /* --- 2. تنسيق حقل البحث --- */
 
 
@@ -34,79 +36,7 @@
     outline: none;
 
 
-}
-
-
-/* --- 3. تنسيق رأس الملف الشخصي للصالون --- */
-
-
-.profile-header {
-
-
-    height: 150px;
-
-
-    background-size: cover;
-
-
-    background-position: center;
-
-
-    position: relative;
-
-
-}
-
-
-/* --- 4. تنسيق صورة الحلاق الشخصية --- */
-
-
-.profile-pic {
-
-
-    width: 80px;
-
-
-    height: 80px;
-
-
-    border-radius: 50%;
-
-
-    border: 3px solid white;
-
-
-    position: absolute;
-
-
-    bottom: -40px;
-
-
-    right: 20px;
-
-
-}
-
-
-/* --- 5. تنسيق وصف الصالون --- */
-
-
-.salon-description p {
-
-
-    font-style: italic;
-
-
-    background: #fdfdfd;
-
-
-    padding: 10px;
-
-
-    border-right: 3px solid var(--gold);
-
-
-    margin: 10px 0;
+    box-sizing: border-box;
 
 
 }

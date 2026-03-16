@@ -1,88 +1,94 @@
 // js/dashboard.js
 
 
-/* --- 1. استيراد المكتبات والخدمات اللازمة من Firebase --- */
+/* --- 1. استيراد المكتبات والخدمات --- */
 
 
-import { auth, db, storage } from './modules/firebase-init.js';
+import { auth, db } from './modules/firebase-init.js';
 
 
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+/* --- 2. دالة إدارة النوافذ المنبثقة (Reusable Modal Handler) --- */
 
 
-/* --- 2. وظائف التحكم في النوافذ المنبثقة (Modals) --- */
-
-
-const openModal = (id) => {
+const toggleModal = (id, display) => {
 
 
     const modal = document.getElementById(id);
 
 
-    if (modal) modal.style.display = "block";
+    if (modal) modal.style.display = display;
 
 
 };
 
 
-const closeModal = (id) => {
+/* --- 3. دالة جلب بيانات الصالون وتحديث الواجهة --- */
 
 
-    const modal = document.getElementById(id);
+const loadSalonData = async (uid) => {
 
 
-    if (modal) modal.style.display = "none";
+    try {
+
+
+        const docRef = doc(db, "salons", uid);
+
+
+        const docSnap = await getDoc(docRef);
+
+
+        if (docSnap.exists()) {
+
+
+            const data = docSnap.data();
+
+
+            const nameEl = document.getElementById('displayShopName');
+
+
+            const addrEl = document.getElementById('displayAddress');
+
+
+            if (nameEl) nameEl.innerText = data.shopName;
+
+
+            if (addrEl) addrEl.innerText = data.address;
+
+
+        }
+
+
+    } catch (error) {
+
+
+        console.error("خطأ في جلب البيانات:", error);
+
+
+    }
 
 
 };
 
 
-/* --- 3. تهيئة الأحداث بمجرد تحميل مستند الصفحة --- */
+/* --- 4. تهيئة الأحداث (Event Listeners) --- */
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    /* --- 4. ربط أزرار فتح النوافذ المنبثقة --- */
-
-
     const btnSettings = document.getElementById('btn-settings');
 
 
-    if (btnSettings) btnSettings.addEventListener('click', () => openModal('salonModal'));
-
-
-    const btnEdit = document.getElementById('btn-edit');
-
-
-    if (btnEdit) btnEdit.addEventListener('click', () => openModal('loginModal'));
-
-
-    /* --- 5. ربط أزرار إغلاق النوافذ المنبثقة --- */
-
-
-    const closeSalon = document.getElementById('closeSalonModal');
-
-
-    if (closeSalon) closeSalon.addEventListener('click', () => closeModal('salonModal'));
-
-
-    const closeLogin = document.getElementById('closeLoginModal');
-
-
-    if (closeLogin) closeLogin.addEventListener('click', () => closeModal('loginModal'));
-
-
-    /* --- 6. منطق تسجيل الخروج مع التأكيد --- */
-
-
     const btnLogout = document.getElementById('btn-logout');
+
+
+    if (btnSettings) btnSettings.addEventListener('click', () => toggleModal('salonModal', 'block'));
 
 
     if (btnLogout) {
@@ -109,70 +115,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    /* --- 7. إغلاق النافذة عند النقر في أي مكان خارجها --- */
-
-
-    window.onclick = (event) => {
-
-
-        if (event.target.classList.contains('modal')) {
-
-
-            event.target.style.display = "none";
-
-
-        }
-
-
-    };
-
-
 });
 
 
-/* --- 8. مراقبة حالة المستخدم وجلب بيانات الصالون --- */
+/* --- 5. مراقبة حالة المستخدم (Auth State) --- */
 
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, (user) => {
 
 
     if (user) {
 
 
-        /* --- 9. جلب وثيقة الصالون من Firestore باستخدام UID --- */
-
-
-        const docRef = doc(db, "salons", user.uid);
-
-
-        const docSnap = await getDoc(docRef);
-
-
-        if (docSnap.exists()) {
-
-
-            const data = docSnap.data();
-
-
-            /* --- 10. عرض اسم الصالون في واجهة المستخدم --- */
-
-
-            if (document.getElementById('displayShopName')) {
-
-
-                document.getElementById('displayShopName').innerText = data.shopName;
-
-
-            }
-
-
-        }
+        loadSalonData(user.uid);
 
 
     } else {
-
-
-        /* --- 11. إعادة التوجيه لصفحة الدخول إذا لم يكن المستخدم مسجلاً --- */
 
 
         window.location.href = "login.html";

@@ -1,17 +1,20 @@
 // js/salons.js
 
 
+/* --- 1. استيراد الخدمات المطلوبة --- */
+
+
 import { db } from './modules/firebase-init.js';
 
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-// تأكد من مطابقة اسم الملف تماماً (إذا كان ملفك saloncard.js استخدم هذا السطر)
+// تم تصحيح اسم الملف هنا ليتطابق مع اسم الملف الفعلي لديك
 import { createSalonCard } from './saloncard.js';
 
 
-/* --- دالة عرض البيانات --- */
+/* --- 2. دالة جلب وعرض الصالونات --- */
 
 
 export const fetchAndDisplaySalons = async () => {
@@ -29,16 +32,13 @@ export const fetchAndDisplaySalons = async () => {
         const querySnapshot = await getDocs(collection(db, "salons"));
 
 
-        salonsList.innerHTML = ""; // مسح النص السابق
+        salonsList.innerHTML = "";
 
 
         querySnapshot.forEach((doc) => {
 
 
             const salonData = doc.data();
-
-
-            console.log("جاري معالجة بيانات:", salonData); // للتحقق من وصول البيانات
 
 
             salonsList.innerHTML += createSalonCard(salonData);
@@ -57,3 +57,9 @@ export const fetchAndDisplaySalons = async () => {
 
 
 };
+
+
+/* --- 3. استدعاء الدالة --- */
+
+
+document.addEventListener('DOMContentLoaded', fetchAndDisplaySalons);

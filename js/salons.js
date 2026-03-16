@@ -1,23 +1,16 @@
 // js/salons.js
 
-
-/* --- 1. استيراد الخدمات المطلوبة --- */
-
-
 import { db } from './modules/firebase-init.js';
+
 
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-// تم تصحيح اسم الملف هنا ليتطابق مع اسم الملف الفعلي لديك
 import { createSalonCard } from './saloncard.js';
 
 
-/* --- 2. دالة جلب وعرض الصالونات --- */
-
-
-export const fetchAndDisplaySalons = async () => {
+async function loadSalons() {
 
 
     const salonsList = document.getElementById('salonsList');
@@ -29,19 +22,33 @@ export const fetchAndDisplaySalons = async () => {
     try {
 
 
+        // جلب البيانات من مجموعة "salons"
         const querySnapshot = await getDocs(collection(db, "salons"));
 
 
-        salonsList.innerHTML = "";
+        salonsList.innerHTML = ""; 
+
+
+        if (querySnapshot.empty) {
+
+
+            salonsList.innerHTML = "<p style='text-align:center;'>لا يوجد صالونات مسجلة حالياً.</p>";
+
+
+            return;
+
+
+        }
 
 
         querySnapshot.forEach((doc) => {
 
 
-            const salonData = doc.data();
+            const data = doc.data();
 
 
-            salonsList.innerHTML += createSalonCard(salonData);
+            // إضافة البطاقة
+            salonsList.innerHTML += createSalonCard(data);
 
 
         });
@@ -53,13 +60,14 @@ export const fetchAndDisplaySalons = async () => {
         console.error("خطأ في جلب الصالونات:", error);
 
 
+        salonsList.innerHTML = "<p style='text-align:center;'>حدث خطأ أثناء تحميل البيانات.</p>";
+
+
     }
 
 
-};
+}
 
 
-/* --- 3. استدعاء الدالة --- */
-
-
-document.addEventListener('DOMContentLoaded', fetchAndDisplaySalons);
+// تنفيذ الدالة
+document.addEventListener('DOMContentLoaded', loadSalons);

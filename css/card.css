@@ -127,6 +127,17 @@
 /* --- 4. تنسيق نصوص وصف أعمال الصالون --- */
 
 
+.salon-description {
+
+
+    margin: 15px 0;
+
+
+}
+
+
+
+
 .salon-description p {
 
 
@@ -149,3 +160,48 @@
 
 
 }
+
+
+
+
+/* --- 5. تنسيق قائمة الخدمات --- */
+
+
+.salon-services {
+
+
+    margin: 10px 0;
+
+
+    padding: 10px;
+
+
+    background: #f9f9f9;
+
+
+    border-radius: 8px;
+
+
+}
+
+
+
+
+/* --- 6. تنسيق الأزرار داخل البطاقة --- */
+
+
+.actions {
+
+
+    display: flex;
+
+
+    gap: 10px;
+
+
+    margin-top: 15px;
+
+
+}
+
+

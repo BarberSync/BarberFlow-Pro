@@ -77,3 +77,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+// دالة إظهار وإخفاء شكل جاري التحميل
+
+
+// دالة إظهار التحميل
+export const showLoader = () => {
+
+
+    const loader = document.getElementById('globalLoader');
+
+
+    if (loader) loader.style.display = 'flex';
+
+
+};
+
+
+// دالة إخفاء التحميل
+export const hideLoader = () => {
+
+
+    const loader = document.getElementById('globalLoader');
+
+
+    if (loader) loader.style.display = 'none';
+
+
+};
+

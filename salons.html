@@ -17,71 +17,10 @@
 
 <body>
 
-<body>
 
     <div id="globalLoader" class="loader-overlay" style="display: none;">
-
-
         <div class="loader"></div>
-
-
     </div>
-
-
-    ```
-
-*(لاحظ أنني أضفت `style="display: none;"` ليكون مخفياً افتراضياً عند تحميل الصفحة، وسنقوم بإظهاره برمجياً).*
-
----
-
-### 2. تفعيل التحميل في ملف `salons.js` (مثال للتطبيق)
-بما أننا أنشأنا الدوال في `main.js`، سنقوم الآن باستدعائها داخل ملف `salons.js` ليقوم النظام بإظهار التأثير عند بدء الجلب وإخفائه عند انتهائه.
-
-* **المكان**: في بداية ملف `js/salons.js` (مع باقي الاستيرادات `import`)، وفي داخل دالة `loadSalons`.
-
-```javascript
-// في بداية ملف salons.js، أضف هذا السطر مع الاستيرادات
-import { showLoader, hideLoader } from './main.js';
-
-
-async function loadSalons() {
-
-
-    showLoader(); // إظهار التأثير عند بدء العملية
-
-
-    const salonsList = document.getElementById('salonsList');
-
-
-    // ... الكود الحالي الخاص بك ...
-
-
-    try {
-
-
-        const querySnapshot = await getDocs(collection(db, "salons"));
-
-
-        // ... كود معالجة البيانات ...
-
-
-    } catch (error) {
-
-
-        console.error("خطأ:", error);
-
-
-    } finally {
-
-
-        hideLoader(); // إخفاء التأثير دائماً في النهاية (سواء نجح الجلب أو فشل)
-
-
-    }
-
-
-}
-
 
 
     <nav>
@@ -93,25 +32,15 @@ async function loadSalons() {
     <div class="container" style="max-width: 900px;">
         <h2 style="text-align: center; margin-top: 20px;">الصالونات المسجلة</h2>
         
-        
-        
-    <div class="search-container">
+        <div class="search-container">
+            <input type="text" id="salonSearch" onkeyup="searchSalons()" placeholder="🔎 ابحث باسم الصالون، العنوان أو صاحب الصالون...">
+        </div>
 
 
-  <input type="text" id="salonSearch" onkeyup="searchSalons()" placeholder="🔎 ابحث باسم الصالون، العنوان أو صاحب الصالون...">
-
-
-</div>
-
-
-        <div id="salonsList">
-
-
-    <div class="loader"></div>  <p style="text-align: center;">جاري تحميل الصالونات...</p>
-
-
-</div>
-
+        <div id="salonsList" class="loader-container">
+            <p style="text-align: center;">جاري تحميل الصالونات...</p>
+        </div>
+    </div>
 
 
     <script type="module" src="js/salons.js"></script>

@@ -1,111 +1,32 @@
 <!DOCTYPE html>
-
-
 <html lang="ar" dir="rtl">
 
 
 <head>
-
-
     <meta charset="UTF-8">
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
     <title>انضم كحلاق - BarberFlow-Pro</title>
 
-
     <link rel="stylesheet" href="css/style.css">
-
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
-
 </head>
 
 
 <body>
 
 
-
-
     <div id="globalLoader" class="loader-overlay" style="display: none;">
-
-
         <div class="loader"></div>
-
-
     </div>
 
 
-    ```
-
-*(لاحظ أنني أضفت `style="display: none;"` ليكون مخفياً افتراضياً عند تحميل الصفحة، وسنقوم بإظهاره برمجياً).*
-
----
-
-### 2. تفعيل التحميل في ملف `salons.js` (مثال للتطبيق)
-بما أننا أنشأنا الدوال في `main.js`، سنقوم الآن باستدعائها داخل ملف `salons.js` ليقوم النظام بإظهار التأثير عند بدء الجلب وإخفائه عند انتهائه.
-
-* **المكان**: في بداية ملف `js/salons.js` (مع باقي الاستيرادات `import`)، وفي داخل دالة `loadSalons`.
-
-```javascript
-// في بداية ملف salons.js، أضف هذا السطر مع الاستيرادات
-import { showLoader, hideLoader } from './main.js';
-
-
-async function loadSalons() {
-
-
-    showLoader(); // إظهار التأثير عند بدء العملية
-
-
-    const salonsList = document.getElementById('salonsList');
-
-
-    // ... الكود الحالي الخاص بك ...
-
-
-    try {
-
-
-        const querySnapshot = await getDocs(collection(db, "salons"));
-
-
-        // ... كود معالجة البيانات ...
-
-
-    } catch (error) {
-
-
-        console.error("خطأ:", error);
-
-
-    } finally {
-
-
-        hideLoader(); // إخفاء التأثير دائماً في النهاية (سواء نجح الجلب أو فشل)
-
-
-    }
-
-
-}
-
-
     <div class="container" style="max-width: 500px; margin-top: 30px;">
-
-
         <h2 style="text-align: center;">تسجيل صالون جديد</h2>
 
 
         <form id="registerForm">
-
-
             <label>معلومات الدخول:</label>
-
-
             <input type="email" id="email" placeholder="البريد الإلكتروني" required 
                    style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd;">
 
@@ -118,8 +39,6 @@ async function loadSalons() {
 
 
             <label>معلومات الصالون:</label>
-
-
             <input type="text" id="shopName" placeholder="اسم الصالون" required 
                    style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd;">
 
@@ -137,20 +56,12 @@ async function loadSalons() {
 
 
             <button type="submit" id="btnRegister" class="btn btn-gold" style="width: 100%; margin-top: 20px;">إنشاء الحساب والانضمام</button>
-
-
         </form>
 
 
         <div style="text-align: center; margin-top: 20px; padding-bottom: 30px;">
-
-
             <a href="login.html" style="color: var(--primary); text-decoration: none;">لديك حساب بالفعل؟ <span style="color: var(--gold); font-weight: bold;">سجل دخولك</span></a>
-
-
         </div>
-
-
     </div>
 
 
@@ -158,6 +69,4 @@ async function loadSalons() {
 
 
 </body>
-
-
 </html>

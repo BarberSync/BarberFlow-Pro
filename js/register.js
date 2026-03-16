@@ -1,4 +1,7 @@
-// استيراد التهيئة الموحدة لقاعدة البيانات والمصادقة
+// js/register.js
+
+
+/* --- 1. استيراد خدمات Firebase المطلوبة --- */
 
 
 import { auth, db } from './modules/firebase-init.js';
@@ -10,13 +13,13 @@ import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebase
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-// الحصول على عنصر النموذج من الصفحة
+/* --- 2. الحصول على عنصر نموذج التسجيل --- */
 
 
 const registerForm = document.getElementById('registerForm');
 
 
-// التحقق من وجود النموذج في الصفحة قبل إضافة مستمع الحدث
+/* --- 3. إدارة حدث إرسال النموذج --- */
 
 
 if (registerForm) {
@@ -28,7 +31,7 @@ if (registerForm) {
         e.preventDefault();
 
 
-        // جمع البيانات من حقول register.html
+        /* --- 4. جمع بيانات الحلاق والصالون من الحقول --- */
 
 
         const email = document.getElementById('email').value;
@@ -52,7 +55,7 @@ if (registerForm) {
         try {
 
 
-            // 1. إنشاء الحساب في Firebase Auth
+            /* --- 5. إنشاء حساب المستخدم في نظام المصادقة --- */
 
 
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -61,7 +64,7 @@ if (registerForm) {
             const user = userCredential.user;
 
 
-            // 2. تخزين بيانات الصالون الإضافية في Firestore
+            /* --- 6. تخزين بيانات الصالون في قاعدة بيانات Firestore --- */
 
 
             await setDoc(doc(db, "salons", user.uid), {
@@ -88,6 +91,9 @@ if (registerForm) {
             });
 
 
+            /* --- 7. تأكيد النجاح والتوجيه للوحة التحكم --- */
+
+
             alert("تم تسجيل صالونك بنجاح!");
 
 
@@ -95,6 +101,9 @@ if (registerForm) {
 
 
         } catch (error) {
+
+
+            /* --- 8. التعامل مع أخطاء التسجيل --- */
 
 
             console.error("خطأ في التسجيل:", error.message);

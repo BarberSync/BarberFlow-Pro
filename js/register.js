@@ -1,10 +1,13 @@
 // js/register.js
 
 
-/* --- 1. استيراد خدمات Firebase المطلوبة --- */
+/* --- 1. استيراد خدمات Firebase المطلوبة ودوال النظام --- */
 
 
 import { auth, db } from './modules/firebase-init.js';
+
+
+import { showLoader, hideLoader } from './main.js';
 
 
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -52,10 +55,16 @@ if (registerForm) {
         const address = document.getElementById('address').value;
 
 
+        /* --- 5. إظهار شكل التحميل لبدء العملية --- */
+
+
+        showLoader();
+
+
         try {
 
 
-            /* --- 5. إنشاء حساب المستخدم في نظام المصادقة --- */
+            /* --- 6. إنشاء حساب المستخدم في نظام المصادقة --- */
 
 
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -64,7 +73,7 @@ if (registerForm) {
             const user = userCredential.user;
 
 
-            /* --- 6. تخزين بيانات الصالون في قاعدة بيانات Firestore --- */
+            /* --- 7. تخزين بيانات الصالون في قاعدة بيانات Firestore --- */
 
 
             await setDoc(doc(db, "salons", user.uid), {
@@ -91,7 +100,7 @@ if (registerForm) {
             });
 
 
-            /* --- 7. تأكيد النجاح والتوجيه للوحة التحكم --- */
+            /* --- 8. تأكيد النجاح والتوجيه للوحة التحكم --- */
 
 
             alert("تم تسجيل صالونك بنجاح!");
@@ -103,13 +112,22 @@ if (registerForm) {
         } catch (error) {
 
 
-            /* --- 8. التعامل مع أخطاء التسجيل --- */
+            /* --- 9. التعامل مع أخطاء التسجيل --- */
 
 
             console.error("خطأ في التسجيل:", error.message);
 
 
             alert("عذراً، حدث خطأ أثناء التسجيل: " + error.message);
+
+
+        } finally {
+
+
+            /* --- 10. إخفاء شكل التحميل عند الانتهاء (سواء بالنجاح أو الفشل) --- */
+
+
+            hideLoader();
 
 
         }

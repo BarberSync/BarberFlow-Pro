@@ -1,17 +1,15 @@
-ملف لإدارة النوافذ المنبثقة (Modals) والتفاعلات في لوحة التحكم
+//هذا الملف مخصص لتنظيم دوال تسجيل الدخول، الخروج، وإنشاء الحسابات بشكل مستقل.
 
- 
-
-// js/modules/auth.js
+// js/auth.js
 
 
-// استيراد الخدمات من الملف المجاور له في نفس المجلد (modules)
+/* --- 1. استيراد الخدمات من ملف التهيئة المركزي --- */
 
 
-import { auth, db } from "./firebase-init.js";
+import { auth, db } from "./modules/firebase-init.js";
 
 
-// استيراد وظائف Firebase
+/* --- 2. استيراد وظائف Firebase المطلوبة للمصادقة وقاعدة البيانات --- */
 
 
 import { 
@@ -41,13 +39,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-/**
-
-
- * دالة تسجيل صالون جديد
-
-
- */
+/* --- 3. دالة تسجيل صالون جديد (SignUp) --- */
 
 
 export const signUp = async (email, password, shopName, ownerName, phone, address) => {
@@ -56,10 +48,16 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
     try {
 
 
+        /* --- 4. إنشاء حساب المستخدم في نظام Firebase Auth --- */
+
+
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
 
         const user = userCredential.user;
+
+
+        /* --- 5. تخزين بيانات الصالون في Firestore وربطها بـ UID المستخدم --- */
 
 
         await setDoc(doc(db, "salons", user.uid), {
@@ -86,13 +84,19 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
         });
 
 
+        /* --- 6. إشعار النجاح والتوجيه للوحة التحكم --- */
+
+
         alert("تم تسجيل صالونك بنجاح!");
 
 
-        window.location.href = "../../dashboard.html";
+        window.location.href = "dashboard.html";
 
 
     } catch (error) {
+
+
+        /* --- 7. التعامل مع أخطاء التسجيل وعرضها --- */
 
 
         console.error("خطأ في التسجيل:", error.message);
@@ -107,13 +111,7 @@ export const signUp = async (email, password, shopName, ownerName, phone, addres
 };
 
 
-/**
-
-
- * دالة تسجيل الدخول
-
-
- */
+/* --- 8. دالة تسجيل الدخول (Login) --- */
 
 
 export const login = async (email, password) => {
@@ -122,13 +120,22 @@ export const login = async (email, password) => {
     try {
 
 
+        /* --- 9. تنفيذ محاولة تسجيل الدخول --- */
+
+
         await signInWithEmailAndPassword(auth, email, password);
 
 
-        window.location.href = "../../dashboard.html";
+        /* --- 10. التوجيه لصفحة الإدارة عند النجاح --- */
+
+
+        window.location.href = "dashboard.html";
 
 
     } catch (error) {
+
+
+        /* --- 11. التعامل مع خطأ بيانات الدخول --- */
 
 
         console.error("خطأ في الدخول:", error.message);
@@ -141,38 +148,3 @@ export const login = async (email, password) => {
 
 
 };
-
-
-/**
-
-
- * دالة تسجيل الخروج
-
-
- */
-
-
-export const logout = async () => {
-
-
-    try {
-
-
-        await signOut(auth);
-
-
-        window.location.href = "../../index.html";
-
-
-    } catch (error) {
-
-
-        console.error("خطأ في تسجيل الخروج:", error);
-
-
-    }
-
-
-};
-
-

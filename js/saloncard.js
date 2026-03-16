@@ -28,7 +28,7 @@ export function createSalonCard(data) {
     const headerImg = data.headerImage || 'images/background.jpg.PNG';
 
 
-    const profileImg = data.profilePic || 'images/avatar.png.PNG';
+    const profileImg = data.profilePic || 'images/avatar.jpg.PNG';
 
 
     const description = data.description ? `<div class="salon-description"><p>${data.description}</p></div>` : '';

@@ -1,168 +1,56 @@
 <!DOCTYPE html>
-
-
 <html lang="ar" dir="rtl">
 
 
 <head>
-
-
     <meta charset="UTF-8">
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
     <title>لوحة التحكم | BarberFlow-Pro</title>
 
-
     <link rel="stylesheet" href="css/style.css">
-
-
+    
     <link rel="stylesheet" href="css/dashboard.css">
-
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
-
 </head>
 
 
 <body>
 
 
-
-
     <div id="globalLoader" class="loader-overlay" style="display: none;">
-
-
         <div class="loader"></div>
-
-
     </div>
 
 
-    ```
-
-*(لاحظ أنني أضفت `style="display: none;"` ليكون مخفياً افتراضياً عند تحميل الصفحة، وسنقوم بإظهاره برمجياً).*
-
----
-
-### 2. تفعيل التحميل في ملف `salons.js` (مثال للتطبيق)
-بما أننا أنشأنا الدوال في `main.js`، سنقوم الآن باستدعائها داخل ملف `salons.js` ليقوم النظام بإظهار التأثير عند بدء الجلب وإخفائه عند انتهائه.
-
-* **المكان**: في بداية ملف `js/salons.js` (مع باقي الاستيرادات `import`)، وفي داخل دالة `loadSalons`.
-
-```javascript
-// في بداية ملف salons.js، أضف هذا السطر مع الاستيرادات
-import { showLoader, hideLoader } from './main.js';
-
-
-async function loadSalons() {
-
-
-    showLoader(); // إظهار التأثير عند بدء العملية
-
-
-    const salonsList = document.getElementById('salonsList');
-
-
-    // ... الكود الحالي الخاص بك ...
-
-
-    try {
-
-
-        const querySnapshot = await getDocs(collection(db, "salons"));
-
-
-        // ... كود معالجة البيانات ...
-
-
-    } catch (error) {
-
-
-        console.error("خطأ:", error);
-
-
-    } finally {
-
-
-        hideLoader(); // إخفاء التأثير دائماً في النهاية (سواء نجح الجلب أو فشل)
-
-
-    }
-
-
-}
-
-
     <nav>
-
-
         <span class="logo">BarberFlow-Pro | لوحة الإدارة</span>
-
-
         <a href="index.html">معاينة الموقع</a>
-
-
     </nav>
 
 
     <div class="dashboard-wrapper">
-
-
         <div style="text-align: center; margin-bottom: 30px;">
-
-
             <h1 id="displayShopName">جاري التحميل...</h1>
-
-
             <p id="displayAddress">مرحباً بك في لوحة تحكم صالونك</p>
-
-
         </div>
 
 
         <div class="btn-group">
-
-
             <button id="btn-settings" class="action-btn">⚙️ إعدادات الصالون</button>
-
-
             <button id="btn-edit" class="action-btn">👤 تعديل بيانات الحساب</button>
-
-
             <button id="btn-logout" class="action-btn" style="color: var(--error-red); border-color: var(--error-red);">🚪 تسجيل الخروج</button>
-
-
         </div>
-
-
     </div>
 
 
     <div id="salonModal" class="modal">
-
-
         <div class="modal-content">
-
-
             <span class="close" id="closeSalonModal" style="cursor: pointer; float: left; font-size: 24px;">&times;</span>
-
-
             <h2>تعديل معلومات الصالون</h2>
-
-
             <input type="text" placeholder="اسم الصالون الجديد" style="width: 100%; padding: 10px; margin: 15px 0;">
-
-
             <button class="btn btn-gold" style="width: 100%;">حفظ التغييرات</button>
-
-
         </div>
-
-
     </div>
 
 
@@ -170,6 +58,4 @@ async function loadSalons() {
 
 
 </body>
-
-
 </html>

@@ -10,7 +10,7 @@ import { db } from './modules/firebase-init.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
-import { createSaloncard } from './salonCard.js';
+import { createSaloncard } from './saloncard.js';
 
 
 /* --- 2. دالة جلب وعرض الصالونات من Firestore --- */

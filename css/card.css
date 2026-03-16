@@ -1,4 +1,4 @@
-/* --- 1. تنسيق إطار بطاقة الصالون --- */
+/* --- 1. تنسيق إطار بطاقة الصالون المحدث --- */
 
 
 .salon-card {
@@ -13,10 +13,10 @@
     overflow: hidden;
 
 
-    background: var(--white);
-
-
     margin-bottom: 30px;
+
+
+    background: #fff;
 
 
     transition: transform 0.3s ease;
@@ -25,7 +25,6 @@
 }
 
 
-/* --- 2. تأثير التفاعل عند مرور الفأرة --- */
 
 
 .salon-card:hover {
@@ -40,46 +39,113 @@
 }
 
 
-/* --- 3. تنسيق حاوية معلومات الصالون --- */
 
 
-.salon-info {
+/* --- 2. تنسيق رأس الملف الشخصي للصالون --- */
 
 
-    padding: 20px;
+.profile-header {
+
+
+    height: 150px;
+
+
+    background-size: cover;
+
+
+    background-position: center;
+
+
+    position: relative;
 
 
 }
 
 
-/* --- 4. تنسيق عنوان الصالون --- */
 
 
-.salon-info h3 {
+.profile-pic {
+
+
+    width: 80px;
+
+
+    height: 80px;
+
+
+    border-radius: 50%;
+
+
+    border: 3px solid white;
+
+
+    position: absolute;
+
+
+    bottom: -40px;
+
+
+    right: 20px;
+
+
+}
+
+
+
+
+/* --- 3. تنسيق معرض الصور داخل البطاقة --- */
+
+
+.gallery-item img {
+
+
+    transition: transform 0.3s ease, border-color 0.3s ease;
+
+
+    border: 2px solid transparent;
+
+
+}
+
+
+
+
+.gallery-item img:hover {
+
+
+    transform: scale(1.05);
+
+
+    border-color: var(--gold);
+
+
+}
+
+
+
+
+/* --- 4. تنسيق نصوص وصف أعمال الصالون --- */
+
+
+.salon-description p {
+
+
+    font-style: italic;
+
+
+    background: #fdfdfd;
+
+
+    padding: 10px;
+
+
+    border-right: 3px solid var(--gold);
+
+
+    border-radius: 4px;
 
 
     margin: 0;
-
-
-    color: var(--primary);
-
-
-}
-
-
-/* --- 5. تنسيق النصوص الفرعية (العنوان والاسم) --- */
-
-
-.salon-info p {
-
-
-    color: var(--gray);
-
-
-    font-size: 0.9rem;
-
-
-    margin: 5px 0;
 
 
 }

@@ -1,7 +1,6 @@
 // js/salons.js
 
 
-// تصحيح مسار الاستيراد ليتوافق مع هيكلة ملفاتك
 import { db } from './firebase-init.js';
 
 
@@ -23,17 +22,17 @@ async function loadSalons() {
     try {
 
 
-        // جلب بيانات الصالونات من قاعدة البيانات
+        // جلب البيانات من مجموعة "salons"
         const querySnapshot = await getDocs(collection(db, "salons"));
 
 
-        salonsList.innerHTML = '';
+        salonsList.innerHTML = ""; 
 
 
         if (querySnapshot.empty) {
 
 
-            salonsList.innerHTML = '<p style="text-align: center;">لا توجد صالونات مسجلة حالياً.</p>';
+            salonsList.innerHTML = "<p style='text-align:center;'>لا يوجد صالونات مسجلة حالياً.</p>";
 
 
             return;
@@ -42,21 +41,14 @@ async function loadSalons() {
         }
 
 
-        // عرض الصالونات في الصفحة
         querySnapshot.forEach((doc) => {
 
 
-            const salonData = doc.data();
+            const data = doc.data();
 
 
-            // إنشاء البطاقة وإضافتها
-            const salonElement = document.createElement('div');
-
-
-            salonElement.innerHTML = createSalonCard(salonData);
-
-
-            salonsList.appendChild(salonElement.firstElementChild);
+            // إضافة البطاقة
+            salonsList.innerHTML += createSalonCard(data);
 
 
         });
@@ -65,10 +57,10 @@ async function loadSalons() {
     } catch (error) {
 
 
-        console.error("خطأ في جلب الصالونات: ", error);
+        console.error("خطأ في جلب الصالونات:", error);
 
 
-        salonsList.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء تحميل الصالونات.</p>';
+        salonsList.innerHTML = "<p style='text-align:center;'>حدث خطأ أثناء تحميل البيانات.</p>";
 
 
     }
@@ -77,5 +69,5 @@ async function loadSalons() {
 }
 
 
-// تنفيذ الدالة عند تحميل الصفحة
+// تنفيذ الدالة
 document.addEventListener('DOMContentLoaded', loadSalons);

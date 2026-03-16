@@ -25,10 +25,10 @@ export function createSalonCard(data) {
     /* --- 2. البيانات الاختيارية (تظهر فقط إذا توفرت) --- */
 
 
-    const headerImg = data.headerImage || 'images/default-header.png';
+    const headerImg = data.headerImage || 'images/background.jpg.PNG';
 
 
-    const profileImg = data.profilePic || 'images/default-avatar.png';
+    const profileImg = data.profilePic || 'images/avatar.jpg.PNG';
 
 
     const description = data.description ? `<div class="salon-description"><p>${data.description}</p></div>` : '';

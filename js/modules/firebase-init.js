@@ -1,35 +1,25 @@
-/* --- 1. استيراد وظائف التهيئة --- */
-
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-
-
-/* --- 2. الإعدادات المحمية --- */
-
-
 const firebaseConfig = {
 
 
-    // قراءة المفتاح من ملف .env المخفي
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
 
 
-    authDomain: "barberflow-v2-c90d8.firebaseapp.com",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
 
 
-    projectId: "barberflow-v2-c90d8",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
 
 
-    storageBucket: "barberflow-v2-c90d8.firebasestorage.app",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
 
 
-    messagingSenderId: "599133211849",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
 
 
-    appId: "1:599133211849:web:f9ec18973417432d439118"
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+
+
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 
 
 };
-
-
-const app = initializeApp(firebaseConfig);
